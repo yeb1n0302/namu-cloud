@@ -3,17 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Namu Cloud — 내 파일 보관함 & 공유</title>
+    <title id="page-title">Namu Cloud — 내 파일 보관함 & 공유</title>
 
     <!-- 디스코드 / SNS 오픈 그래프 (임베드) 설정 -->
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="Namu Cloud">
-    <meta property="og:title" content="Namu Cloud">
+    <meta property="og:title" id="og-title-tag" content="Namu Cloud">
     <meta property="og:description" content="파일을 안전하게 보관하고, 필요한 사람과 링크 하나로 간편하게 나누세요.">
-    <meta property="og:image" content="logo.png">
+    <!-- 요청하신 이미지 적용 -->
+    <meta property="og:image" content="https://media.discordapp.net/attachments/1406081457893675010/1555952247664418897/e91eda9b-d970-477e-9add-25dfa046730a.png?backend=b2&amp;ex=6ac264f4&amp;is=6ac11374&amp;hm=b8909b4dc350f535f8cae38c95c90788f89f36d87c442eee9ae57c7da3dc834d&amp;=&amp;format=webp&amp;quality=lossless&amp;width=768&amp;height=768">
     <meta property="og:image:type" content="image/png">
     <meta name="theme-color" content="#237761">
-    <meta name="twitter:card" content="summary">
+    <!-- 디스코드에서 이미지가 크게 보이도록 설정 -->
+    <meta name="twitter:card" content="summary_large_image">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -487,15 +489,18 @@
                 showShareView(params);
             } else if (hash === '#login') {
                 document.getElementById('view-login').classList.remove('hidden');
+                document.getElementById('page-title').textContent = 'Namu Cloud — 로그인';
             } else if (hash === '#dashboard') {
                 if (!currentUser) {
                     window.location.hash = '#login';
                     return;
                 }
                 document.getElementById('view-dashboard').classList.remove('hidden');
+                document.getElementById('page-title').textContent = 'Namu Cloud — 내 파일 보관함';
                 renderDashboard();
             } else {
                 document.getElementById('view-register').classList.remove('hidden');
+                document.getElementById('page-title').textContent = 'Namu Cloud — 회원가입';
             }
         }
 
@@ -592,7 +597,6 @@
 
                     // 2. 실시간 XHR 바이트 추적 업로드
                     let remoteUrl = await uploadWithXHR('https://tmpfiles.org/api/v1/upload', file, file.name, (p) => {
-                        // 15% ~ 90% 슬롯을 바이트 진행률로 촘촘하게 환산
                         const mapped = 15 + (p * 0.75);
                         updateProgress(mapped, `${file.name} 네트워크 전송 중`);
                     });
@@ -600,7 +604,6 @@
                     if (remoteUrl) {
                         remoteUrl = remoteUrl.replace('tmpfiles.org/', 'tmpfiles.org/dl/');
                     } else {
-                        // 백업 API 전송
                         updateProgress(80, `보조 클라우드 연결 중`);
                         remoteUrl = await uploadToLitterbox(file, file.name);
                     }
@@ -634,7 +637,7 @@
             }, 2500);
         }
 
-        // XHR 업로드엔진 (실시간 e.loaded / e.total 프로그레스 반환)
+        // XHR 업로드엔진 (실시간 프로그레스 반환)
         function uploadWithXHR(apiUrl, fileBlob, fileName, onProgress) {
             return new Promise((resolve) => {
                 const xhr = new XMLHttpRequest();
@@ -777,17 +780,17 @@
             }
         }
 
-        // 공유 상태 토글 (공유 중지 -> 무효화 / 공유 시작 -> 새 키 발급)
+        // 공유 상태 토글
         function toggleShare(id) {
             const file = files.find(f => f.id === id);
             if (!file) return;
 
             if (file.shared) {
                 file.shared = false;
-                file.shareKey = null; // 고유키 파기
+                file.shareKey = null;
             } else {
                 file.shared = true;
-                file.shareKey = generateKey(); // 새로운 고유 키 발급
+                file.shareKey = generateKey();
             }
 
             saveMetadata();
@@ -853,7 +856,7 @@
             renameDialog.close();
         });
 
-        // Share Download View
+        // Share Download View (제목을 파일 이름으로 동적 설정)
         function showShareView(params) {
             document.getElementById('view-share').classList.remove('hidden');
 
@@ -868,7 +871,6 @@
 
             const localFile = files.find(f => f.shareKey === shareKey || (shareKey && f.id === shareKey));
 
-            // 주인 사용자가 공유를 중지한 경우 접속 차단
             if (localFile && !localFile.shared) {
                 renderShareError();
                 return;
@@ -880,6 +882,11 @@
             if (fileName && (downloadUrl || localFile)) {
                 nameEl.textContent = fileName;
                 sizeEl.textContent = formatBytes(fileSize);
+
+                // 웹페이지 탭 제목(title) 및 디스코드 임베드 타이틀을 파일 이름으로 변경
+                document.getElementById('page-title').textContent = fileName + ' — Namu Cloud';
+                const ogTitle = document.getElementById('og-title-tag');
+                if (ogTitle) ogTitle.setAttribute('content', fileName);
 
                 if (downloadUrl) {
                     downloadBtn.href = downloadUrl;
@@ -915,6 +922,7 @@
             function renderShareError() {
                 nameEl.textContent = '파일을 찾을 수 없거나 공유가 중지되었습니다.';
                 sizeEl.textContent = '0 B';
+                document.getElementById('page-title').textContent = '파일을 찾을 수 없음 — Namu Cloud';
                 downloadBtn.removeAttribute('href');
                 downloadBtn.classList.add('pointer-events-none', 'opacity-50');
             }

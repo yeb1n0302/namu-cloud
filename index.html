@@ -302,7 +302,19 @@
                     <h2 class="text-lg font-semibold tracking-tight">파일을 여기에 놓으세요</h2>
                     <p class="mt-2 text-sm text-slate-500">또는 기기에서 파일을 선택해 업로드하세요.</p>
                     <button id="choose-files" type="button" class="primary-button mt-5">파일 선택</button>
-                    <p class="mt-4 text-xs text-slate-400">여러 파일을 한 번에 선택해 짧은 링크로 쉽게 공유할 수 있습니다.</p>
+                    
+                    <!-- 실시간 업로드 및 저장 진행상황 표시 박스 -->
+                    <div id="upload-status-box" class="mt-5 hidden rounded-xl bg-mint/80 border border-moss/20 p-3 text-sm font-medium text-moss">
+                        <div class="flex items-center justify-center gap-2">
+                            <svg class="h-4 w-4 animate-spin text-moss" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                <circle cx="12" cy="12" r="10" stroke-width="4" class="opacity-25"></circle>
+                                <path fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" class="opacity-75"></path>
+                            </svg>
+                            <span id="upload-status-text">저장하는 중 ( 진행상황 : 0% )</span>
+                        </div>
+                    </div>
+
+                    <p id="upload-guide-text" class="mt-4 text-xs text-slate-400">여러 파일을 한 번에 선택해 짧은 링크로 쉽게 공유할 수 있습니다.</p>
                 </div>
             </section>
 
@@ -402,6 +414,56 @@
 
     <!-- APPLICATION LOGIC -->
     <script>
+        // IndexedDB Wrapper (대용량 파일 저장 엔진)
+        const DB_NAME = 'NamuCloudDB';
+        const DB_VERSION = 1;
+        const STORE_NAME = 'file_blobs';
+
+        function openDB() {
+            return new Promise((resolve, reject) => {
+                const request = indexedDB.open(DB_NAME, DB_VERSION);
+                request.onupgradeneeded = (e) => {
+                    const db = e.target.result;
+                    if (!db.objectStoreNames.contains(STORE_NAME)) {
+                        db.createObjectStore(STORE_NAME);
+                    }
+                };
+                request.onsuccess = () => resolve(request.result);
+                request.onerror = () => reject(request.error);
+            });
+        }
+
+        async function saveBlobToIDB(id, blob) {
+            const db = await openDB();
+            return new Promise((resolve, reject) => {
+                const tx = db.transaction(STORE_NAME, 'readwrite');
+                tx.objectStore(STORE_NAME).put(blob, id);
+                tx.oncomplete = () => resolve();
+                tx.onerror = () => reject(tx.error);
+            });
+        }
+
+        async function getBlobFromIDB(id) {
+            const db = await openDB();
+            return new Promise((resolve, reject) => {
+                const tx = db.transaction(STORE_NAME, 'readonly');
+                const req = tx.objectStore(STORE_NAME).get(id);
+                req.onsuccess = () => resolve(req.result);
+                req.onerror = () => reject(req.error);
+            });
+        }
+
+        async function deleteBlobFromIDB(id) {
+            const db = await openDB();
+            return new Promise((resolve, reject) => {
+                const tx = db.transaction(STORE_NAME, 'readwrite');
+                tx.objectStore(STORE_NAME).delete(id);
+                tx.oncomplete = () => resolve();
+                tx.onerror = () => reject(tx.error);
+            });
+        }
+
+        // Global State
         let currentUser = JSON.parse(localStorage.getItem('namu_user')) || null;
         let files = JSON.parse(localStorage.getItem('namu_files')) || [];
         let editingFileId = null;
@@ -413,14 +475,12 @@
 
             if (hash.startsWith('#share')) {
                 const queryIndex = hash.indexOf('?');
-                let fileId = '';
                 let params = new URLSearchParams();
                 if (queryIndex !== -1) {
                     const queryString = hash.substring(queryIndex + 1);
                     params = new URLSearchParams(queryString);
-                    fileId = params.get('id') || '';
                 }
-                showShareView(fileId, params);
+                showShareView(params);
             } else if (hash === '#login') {
                 document.getElementById('view-login').classList.remove('hidden');
             } else if (hash === '#dashboard') {
@@ -446,7 +506,11 @@
             return parseFloat((bytes / Math.pow(k, i)).toFixed(1)) + ' ' + sizes[i];
         }
 
-        // Auth
+        function generateKey() {
+            return 'sk_' + Date.now() + '_' + Math.random().toString(36).substr(2, 6);
+        }
+
+        // Auth Forms
         document.getElementById('register-form').addEventListener('submit', (e) => {
             e.preventDefault();
             const name = document.getElementById('reg-name').value;
@@ -470,14 +534,16 @@
             window.location.hash = '#login';
         });
 
-        // File Drag & Drop + Upload Logic
+        // File Drag & Drop + Upload with Progress Tracking
         const dropZone = document.getElementById('drop-zone');
         const fileInput = document.getElementById('file-input');
+        const statusBox = document.getElementById('upload-status-box');
+        const statusText = document.getElementById('upload-status-text');
 
         document.getElementById('choose-files').addEventListener('click', () => fileInput.click());
 
         fileInput.addEventListener('change', (e) => {
-            uploadFiles(e.target.files);
+            handleUploadFiles(e.target.files);
             fileInput.value = '';
         });
 
@@ -491,43 +557,56 @@
         dropZone.addEventListener('drop', (e) => {
             e.preventDefault();
             dropZone.classList.remove('dragover');
-            uploadFiles(e.dataTransfer.files);
+            handleUploadFiles(e.dataTransfer.files);
         });
 
-        function uploadFiles(uploadedFiles) {
-            Array.from(uploadedFiles).forEach(file => {
-                const newFile = {
-                    id: 'file_' + Date.now() + '_' + Math.random().toString(36).substr(2, 5),
-                    name: file.name,
-                    size: file.size,
-                    date: new Date().toLocaleDateString('ko-KR', { year: 'numeric', month: 'long', day: 'numeric' }),
-                    downloads: 0,
-                    shared: true,
-                    rawFile: file,
-                    remoteUrl: null
-                };
-                files.unshift(newFile);
-            });
-            saveFiles();
+        async function handleUploadFiles(fileList) {
+            const arr = Array.from(fileList);
+            if (arr.length === 0) return;
+
+            statusBox.classList.remove('hidden');
+
+            for (let i = 0; i < arr.length; i++) {
+                const file = arr[i];
+                const fileId = 'file_' + Date.now() + '_' + Math.random().toString(36).substr(2, 5);
+
+                // Update Status Bar
+                statusText.textContent = `저장하는 중 ( 진행상황 : 10% / ${file.name} 저장 중… )`;
+                await new Promise(r => setTimeout(r, 100));
+
+                try {
+                    // Save file binary safely to IndexedDB
+                    await saveBlobToIDB(fileId, file);
+                    statusText.textContent = `저장하는 중 ( 진행상황 : 80% / 내장 저장소 기록 중 )`;
+
+                    const newFile = {
+                        id: fileId,
+                        name: file.name,
+                        size: file.size,
+                        date: new Date().toLocaleDateString('ko-KR', { year: 'numeric', month: 'long', day: 'numeric' }),
+                        downloads: 0,
+                        shared: true,
+                        shareKey: generateKey(),
+                        remoteUrl: null
+                    };
+
+                    files.unshift(newFile);
+                    saveMetadata();
+                    statusText.textContent = `저장 완료 ( 진행상황 : 100% )`;
+                } catch (err) {
+                    console.error('Storage Error:', err);
+                    statusText.textContent = `저장 오류 발생: 브라우저 저장소가 부족합니다.`;
+                }
+            }
+
             renderDashboard();
+            setTimeout(() => {
+                statusBox.classList.add('hidden');
+            }, 2500);
         }
 
-        function saveFiles() {
-            try {
-                // Save file metadata
-                const metaFiles = files.map(f => ({
-                    id: f.id,
-                    name: f.name,
-                    size: f.size,
-                    date: f.date,
-                    downloads: f.downloads,
-                    shared: f.shared,
-                    remoteUrl: f.remoteUrl
-                }));
-                localStorage.setItem('namu_files', JSON.stringify(metaFiles));
-            } catch (err) {
-                console.error('Storage save error:', err);
-            }
+        function saveMetadata() {
+            localStorage.setItem('namu_files', JSON.stringify(files));
         }
 
         function renderDashboard() {
@@ -575,7 +654,7 @@
                     <div class="sm:col-span-3 flex items-center justify-end gap-1.5 flex-wrap">
                         <button onclick="downloadLocalFile('${file.id}')" class="quiet-button">다운로드</button>
                         <button onclick="copyShareLink('${file.id}', event)" class="quiet-button">링크 복사</button>
-                        <button onclick="toggleShare('${file.id}')" class="quiet-button">${file.shared ? '링크 끄기' : '링크 켜기'}</button>
+                        <button onclick="toggleShare('${file.id}')" class="quiet-button ${file.shared ? '' : 'text-rose-600 bg-rose-50 border-rose-200'}">${file.shared ? '공유 중지' : '공유 시작'}</button>
                         <button onclick="openRenameModal('${file.id}')" class="quiet-button">이름 변경</button>
                         <button onclick="deleteFile('${file.id}')" class="quiet-button text-rose-600 hover:bg-rose-50">삭제</button>
                     </div>
@@ -586,103 +665,192 @@
 
         document.getElementById('file-search').addEventListener('input', renderDashboard);
 
-        function downloadLocalFile(id) {
+        async function downloadLocalFile(id) {
             const file = files.find(f => f.id === id);
             if (!file) return;
 
             file.downloads++;
-            saveFiles();
+            saveMetadata();
             renderDashboard();
 
-            if (file.remoteUrl) {
-                window.open(file.remoteUrl, '_blank');
-            } else if (file.rawFile) {
-                const url = URL.createObjectURL(file.rawFile);
-                const a = document.createElement('a');
-                a.href = url;
-                a.download = file.name;
-                a.click();
-                URL.revokeObjectURL(url);
+            try {
+                const blob = await getBlobFromIDB(file.id);
+                if (blob) {
+                    const url = URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = file.name;
+                    a.click();
+                    URL.revokeObjectURL(url);
+                } else if (file.remoteUrl) {
+                    window.open(file.remoteUrl, '_blank');
+                } else {
+                    alert('파일 원본을 원본 브라우저 저장소에서 찾을 수 없습니다.');
+                }
+            } catch (err) {
+                console.error('Download err:', err);
             }
         }
 
-        // Short Share Link Generator (Uploads to Cloud Host API for Short Clean URL & Universal Access)
+        // Toggle Sharing State Logic
+        function toggleShare(id) {
+            const file = files.find(f => f.id === id);
+            if (!file) return;
+
+            if (file.shared) {
+                // 공유 중지 -> 공유 무효화
+                file.shared = false;
+                file.shareKey = null; // 기존 키 제거
+            } else {
+                // 공유 시작 -> 새로운 키 발급 (새 링크 배정)
+                file.shared = true;
+                file.shareKey = generateKey();
+                file.remoteUrl = null; // 새 링크 복사 시 새로 전송 유도
+            }
+
+            saveMetadata();
+            renderDashboard();
+        }
+
+        // Copy Share Link (With Progress Bar & Reliable Multi-fallback APIs)
         async function copyShareLink(id, event) {
             const file = files.find(f => f.id === id);
             if (!file) return;
+
+            if (!file.shared || !file.shareKey) {
+                alert("현재 공유가 중지된 파일입니다.\n'공유 시작' 버튼을 눌러 새 링크를 배정받으세요.");
+                return;
+            }
 
             const btn = event ? event.currentTarget : null;
             let origText = '';
             if (btn) {
                 origText = btn.textContent;
-                btn.textContent = '짧은 링크 생성 중...';
+                btn.textContent = '링크 생성 중…';
                 btn.disabled = true;
             }
+
+            statusBox.classList.remove('hidden');
+            statusText.textContent = `저장하는 중 ( 진행상황 : 10% / 클라우드 전송 준비 )`;
 
             try {
                 let downloadUrl = file.remoteUrl;
 
-                if (!downloadUrl && file.rawFile) {
-                    const formData = new FormData();
-                    formData.append('file', file.rawFile, file.name);
+                if (!downloadUrl) {
+                    const blob = await getBlobFromIDB(file.id);
+                    if (!blob) throw new Error("원본 파일 블롭을 찾을 수 없습니다.");
 
-                    // Upload to free CORS-enabled file API
-                    const res = await fetch('https://tmpfiles.org/api/v1/upload', {
-                        method: 'POST',
-                        body: formData
+                    statusText.textContent = `저장하는 중 ( 진행상황 : 35% / 클라우드 링크 생성 중 )`;
+
+                    // Primary Host: tmpfiles.org with XHR Progress
+                    downloadUrl = await uploadWithXHR('https://tmpfiles.org/api/v1/upload', blob, file.name, (percent) => {
+                        statusText.textContent = `저장하는 중 ( 진행상황 : ${Math.floor(35 + percent * 0.5)}% / 전송 중 )`;
                     });
 
-                    if (res.ok) {
-                        const data = await res.json();
-                        if (data && data.data && data.data.url) {
-                            // Convert view URL to direct download URL
-                            downloadUrl = data.data.url.replace('tmpfiles.org/', 'tmpfiles.org/dl/');
-                            file.remoteUrl = downloadUrl;
-                            saveFiles();
-                        }
+                    if (downloadUrl) {
+                        downloadUrl = downloadUrl.replace('tmpfiles.org/', 'tmpfiles.org/dl/');
+                    } else {
+                        // Fallback Host: Catbox Litterbox
+                        statusText.textContent = `저장하는 중 ( 진행상황 : 70% / 백업 클라우드 시도 )`;
+                        downloadUrl = await uploadToLitterbox(blob, file.name);
+                    }
+
+                    if (downloadUrl) {
+                        file.remoteUrl = downloadUrl;
+                        saveMetadata();
                     }
                 }
 
+                statusText.textContent = `저장하는 중 ( 진행상황 : 100% / 공유 링크 완성 )`;
+
                 const params = new URLSearchParams();
+                params.set('k', file.shareKey); // 공유 고유 키
                 params.set('n', file.name);
                 params.set('s', file.size.toString());
                 if (downloadUrl) {
                     params.set('u', downloadUrl);
-                } else {
-                    params.set('id', file.id);
                 }
 
                 const shareUrl = `${window.location.origin}${window.location.pathname}#share?${params.toString()}`;
 
                 await navigator.clipboard.writeText(shareUrl);
-                alert('짧고 완벽하게 저장 가능한 공유 링크가 복사되었습니다!\n\n' + shareUrl);
+                alert('새로운 공유 링크가 클립보드에 복사되었습니다!\n이 링크를 전달하면 누구나 정상 다운로드할 수 있습니다.\n\n' + shareUrl);
             } catch (err) {
-                console.error('링크 생성 실패:', err);
-                alert('링크 생성 중 오류가 발생했습니다. 다시 시도해 주세요.');
+                console.error('링크 생성 에러:', err);
+                statusText.textContent = `링크 생성 실패: 원본 파일을 읽을 수 없습니다.`;
+                alert('링크 생성 도중 오류가 발생했습니다. 다시 시도해 주세요.');
             } finally {
                 if (btn) {
                     btn.textContent = origText;
                     btn.disabled = false;
                 }
+                setTimeout(() => statusBox.classList.add('hidden'), 2000);
             }
         }
 
-        function toggleShare(id) {
-            const file = files.find(f => f.id === id);
-            if (file) {
-                file.shared = !file.shared;
-                saveFiles();
-                renderDashboard();
-            }
+        // XHR Upload Helper
+        function uploadWithXHR(apiUrl, blob, fileName, onProgress) {
+            return new Promise((resolve) => {
+                const xhr = new XMLHttpRequest();
+                const formData = new FormData();
+                formData.append('file', blob, fileName);
+
+                xhr.upload.onprogress = (e) => {
+                    if (e.lengthComputable && onProgress) {
+                        onProgress((e.loaded / e.total) * 100);
+                    }
+                };
+
+                xhr.onload = () => {
+                    if (xhr.status === 200) {
+                        try {
+                            const res = JSON.parse(xhr.responseText);
+                            if (res && res.data && res.data.url) {
+                                resolve(res.data.url);
+                                return;
+                            }
+                        } catch (e) {}
+                    }
+                    resolve(null);
+                };
+
+                xhr.onerror = () => resolve(null);
+                xhr.open('POST', apiUrl, true);
+                xhr.send(formData);
+            });
         }
 
-        function deleteFile(id) {
+        // Litterbox Fallback Helper
+        async function uploadToLitterbox(blob, fileName) {
+            try {
+                const formData = new FormData();
+                formData.append('reqtype', 'fileupload');
+                formData.append('time', '72h');
+                formData.append('fileToUpload', blob, fileName);
+
+                const res = await fetch('https://litterbox.catbox.moe/resources/internals/api.php', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                if (res.ok) {
+                    const url = await res.text();
+                    if (url && url.startsWith('http')) {
+                        return url.trim();
+                    }
+                }
+            } catch (e) {}
+            return null;
+        }
+
+        async function deleteFile(id) {
             files = files.filter(f => f.id !== id);
-            saveFiles();
+            await deleteBlobFromIDB(id);
+            saveMetadata();
             renderDashboard();
         }
 
-        // Rename Modal
+        // Rename Modal Logic
         const renameDialog = document.getElementById('rename-dialog');
         function openRenameModal(id) {
             editingFileId = id;
@@ -700,32 +868,38 @@
             const file = files.find(f => f.id === editingFileId);
             if (file) {
                 file.name = document.getElementById('rename-input').value;
-                saveFiles();
+                saveMetadata();
                 renderDashboard();
             }
             renameDialog.close();
         });
 
-        // Share Download View
-        function showShareView(fileId, params) {
+        // Share Download Page Renderer
+        function showShareView(params) {
             document.getElementById('view-share').classList.remove('hidden');
 
             const nameEl = document.getElementById('share-filename');
             const sizeEl = document.getElementById('share-filesize');
             const downloadBtn = document.getElementById('share-download-btn');
 
+            const shareKey = params.get('k');
             const paramName = params.get('n') || params.get('name');
             const paramSize = params.get('s') || params.get('size');
-            const paramUrl = params.get('u') || params.get('url');
+            const downloadUrl = params.get('u') || params.get('url');
 
-            const localFile = files.find(f => f.id === fileId);
+            // 내 브라우저에 있는 파일인지 검증
+            const localFile = files.find(f => f.shareKey === shareKey || (shareKey && f.id === shareKey));
+
+            // 만약 주인 사용자가 공유를 중지했거나 고유 키가 매칭되지 않을 경우
+            if (localFile && !localFile.shared) {
+                renderShareError();
+                return;
+            }
 
             const fileName = paramName || (localFile ? localFile.name : null);
             const fileSize = paramSize ? parseInt(paramSize) : (localFile ? localFile.size : 0);
-            const downloadUrl = paramUrl || (localFile ? localFile.remoteUrl : null);
-            const isShared = localFile ? localFile.shared : true;
 
-            if (fileName && isShared) {
+            if (fileName && (downloadUrl || localFile)) {
                 nameEl.textContent = fileName;
                 sizeEl.textContent = formatBytes(fileSize);
 
@@ -736,14 +910,31 @@
                     downloadBtn.onclick = () => {
                         if (localFile) {
                             localFile.downloads++;
-                            saveFiles();
+                            saveMetadata();
                         }
                     };
-                } else {
-                    downloadBtn.removeAttribute('href');
-                    downloadBtn.classList.add('pointer-events-none', 'opacity-50');
+                } else if (localFile) {
+                    downloadBtn.classList.remove('pointer-events-none', 'opacity-50');
+                    downloadBtn.onclick = async (e) => {
+                        e.preventDefault();
+                        localFile.downloads++;
+                        saveMetadata();
+                        const blob = await getBlobFromIDB(localFile.id);
+                        if (blob) {
+                            const url = URL.createObjectURL(blob);
+                            const a = document.createElement('a');
+                            a.href = url;
+                            a.download = fileName;
+                            a.click();
+                            URL.revokeObjectURL(url);
+                        }
+                    };
                 }
             } else {
+                renderShareError();
+            }
+
+            function renderShareError() {
                 nameEl.textContent = '파일을 찾을 수 없거나 공유가 중지되었습니다.';
                 sizeEl.textContent = '0 B';
                 downloadBtn.removeAttribute('href');

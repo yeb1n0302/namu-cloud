@@ -302,7 +302,7 @@
                     <h2 class="text-lg font-semibold tracking-tight">파일을 여기에 놓으세요</h2>
                     <p class="mt-2 text-sm text-slate-500">또는 기기에서 파일을 선택해 업로드하세요.</p>
                     <button id="choose-files" type="button" class="primary-button mt-5">파일 선택</button>
-                    <p class="mt-4 text-xs text-slate-400">여러 파일을 한 번에 선택해 링크로 쉽게 공유할 수 있습니다.</p>
+                    <p class="mt-4 text-xs text-slate-400">여러 파일을 한 번에 선택해 짧은 링크로 쉽게 공유할 수 있습니다.</p>
                 </div>
             </section>
 
@@ -372,7 +372,7 @@
                             </div>
                         </dl>
 
-                        <a id="share-download-btn" href="#" download class="primary-button mt-7 w-full">
+                        <a id="share-download-btn" href="#" download class="primary-button mt-7 w-full" target="_blank" rel="noopener noreferrer">
                             <svg viewBox="0 0 24 24" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="1.8">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M12 3.75v11.5m0 0 4.25-4.25M12 15.25l-4.25-4.25M5 16.75v3.5h14v-3.5" />
                             </svg>
@@ -470,7 +470,7 @@
             window.location.hash = '#login';
         });
 
-        // File Drag & Drop + Upload with Base64 encoding
+        // File Drag & Drop + Upload Logic
         const dropZone = document.getElementById('drop-zone');
         const fileInput = document.getElementById('file-input');
 
@@ -496,32 +496,37 @@
 
         function uploadFiles(uploadedFiles) {
             Array.from(uploadedFiles).forEach(file => {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    const dataUrl = e.target.result;
-                    const newFile = {
-                        id: 'file_' + Date.now() + '_' + Math.random().toString(36).substr(2, 5),
-                        name: file.name,
-                        size: file.size,
-                        date: new Date().toLocaleDateString('ko-KR', { year: 'numeric', month: 'long', day: 'numeric' }),
-                        downloads: 0,
-                        shared: true,
-                        dataUrl: dataUrl
-                    };
-                    files.unshift(newFile);
-                    saveFiles();
-                    renderDashboard();
+                const newFile = {
+                    id: 'file_' + Date.now() + '_' + Math.random().toString(36).substr(2, 5),
+                    name: file.name,
+                    size: file.size,
+                    date: new Date().toLocaleDateString('ko-KR', { year: 'numeric', month: 'long', day: 'numeric' }),
+                    downloads: 0,
+                    shared: true,
+                    rawFile: file,
+                    remoteUrl: null
                 };
-                reader.readAsDataURL(file);
+                files.unshift(newFile);
             });
+            saveFiles();
+            renderDashboard();
         }
 
         function saveFiles() {
             try {
-                localStorage.setItem('namu_files', JSON.stringify(files));
+                // Save file metadata
+                const metaFiles = files.map(f => ({
+                    id: f.id,
+                    name: f.name,
+                    size: f.size,
+                    date: f.date,
+                    downloads: f.downloads,
+                    shared: f.shared,
+                    remoteUrl: f.remoteUrl
+                }));
+                localStorage.setItem('namu_files', JSON.stringify(metaFiles));
             } catch (err) {
-                // If localStorage quota is exceeded for large files
-                localStorage.setItem('namu_files', JSON.stringify(files.map(f => ({ ...f, dataUrl: '' }))));
+                console.error('Storage save error:', err);
             }
         }
 
@@ -568,8 +573,8 @@
                     <div class="sm:col-span-2 text-xs text-slate-500">${formatBytes(file.size)}</div>
                     <div class="sm:col-span-2 text-xs text-slate-500">${file.date}</div>
                     <div class="sm:col-span-3 flex items-center justify-end gap-1.5 flex-wrap">
-                        <a href="${file.dataUrl || '#'}" download="${file.name}" onclick="fileDownloaded('${file.id}')" class="quiet-button">다운로드</a>
-                        <button onclick="copyShareLink('${file.id}')" class="quiet-button">링크 복사</button>
+                        <button onclick="downloadLocalFile('${file.id}')" class="quiet-button">다운로드</button>
+                        <button onclick="copyShareLink('${file.id}', event)" class="quiet-button">링크 복사</button>
                         <button onclick="toggleShare('${file.id}')" class="quiet-button">${file.shared ? '링크 끄기' : '링크 켜기'}</button>
                         <button onclick="openRenameModal('${file.id}')" class="quiet-button">이름 변경</button>
                         <button onclick="deleteFile('${file.id}')" class="quiet-button text-rose-600 hover:bg-rose-50">삭제</button>
@@ -581,35 +586,85 @@
 
         document.getElementById('file-search').addEventListener('input', renderDashboard);
 
-        function fileDownloaded(id) {
-            const file = files.find(f => f.id === id);
-            if (file) {
-                file.downloads++;
-                saveFiles();
-                renderDashboard();
-            }
-        }
-
-        // Copy Share Link: Includes metadata and data in URL parameters so anyone on the internet can open and download it!
-        function copyShareLink(id) {
+        function downloadLocalFile(id) {
             const file = files.find(f => f.id === id);
             if (!file) return;
 
-            const params = new URLSearchParams();
-            params.set('id', file.id);
-            params.set('name', file.name);
-            params.set('size', file.size.toString());
-            if (file.dataUrl) {
-                params.set('data', file.dataUrl);
+            file.downloads++;
+            saveFiles();
+            renderDashboard();
+
+            if (file.remoteUrl) {
+                window.open(file.remoteUrl, '_blank');
+            } else if (file.rawFile) {
+                const url = URL.createObjectURL(file.rawFile);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = file.name;
+                a.click();
+                URL.revokeObjectURL(url);
+            }
+        }
+
+        // Short Share Link Generator (Uploads to Cloud Host API for Short Clean URL & Universal Access)
+        async function copyShareLink(id, event) {
+            const file = files.find(f => f.id === id);
+            if (!file) return;
+
+            const btn = event ? event.currentTarget : null;
+            let origText = '';
+            if (btn) {
+                origText = btn.textContent;
+                btn.textContent = '짧은 링크 생성 중...';
+                btn.disabled = true;
             }
 
-            const shareUrl = `${window.location.origin}${window.location.pathname}#share?${params.toString()}`;
+            try {
+                let downloadUrl = file.remoteUrl;
 
-            navigator.clipboard.writeText(shareUrl).then(() => {
-                alert('공유 링크가 클립보드에 복사되었습니다!\n이 링크를 전달하면 다른 사람도 파일 다운로드가 가능합니다.');
-            }).catch(() => {
-                prompt('아래 공유 링크를 복사하세요:', shareUrl);
-            });
+                if (!downloadUrl && file.rawFile) {
+                    const formData = new FormData();
+                    formData.append('file', file.rawFile, file.name);
+
+                    // Upload to free CORS-enabled file API
+                    const res = await fetch('https://tmpfiles.org/api/v1/upload', {
+                        method: 'POST',
+                        body: formData
+                    });
+
+                    if (res.ok) {
+                        const data = await res.json();
+                        if (data && data.data && data.data.url) {
+                            // Convert view URL to direct download URL
+                            downloadUrl = data.data.url.replace('tmpfiles.org/', 'tmpfiles.org/dl/');
+                            file.remoteUrl = downloadUrl;
+                            saveFiles();
+                        }
+                    }
+                }
+
+                const params = new URLSearchParams();
+                params.set('n', file.name);
+                params.set('s', file.size.toString());
+                if (downloadUrl) {
+                    params.set('u', downloadUrl);
+                } else {
+                    params.set('id', file.id);
+                }
+
+                const shareUrl = `${window.location.origin}${window.location.pathname}#share?${params.toString()}`;
+
+                await navigator.clipboard.writeText(shareUrl);
+                alert('짧고 완벽하게 저장 가능한 공유 링크가 복사되었습니다!\n\n' + shareUrl);
+            } catch (err) {
+                console.error('링크 생성 실패:', err);
+                alert('링크 생성 중 오류가 발생했습니다. 다시 시도해 주세요.');
+            } finally {
+                if (btn) {
+                    btn.textContent = origText;
+                    btn.disabled = false;
+                }
+            }
         }
 
         function toggleShare(id) {
@@ -651,7 +706,7 @@
             renameDialog.close();
         });
 
-        // Share Download View (Cross-browser compatible)
+        // Share Download View
         function showShareView(fileId, params) {
             document.getElementById('view-share').classList.remove('hidden');
 
@@ -659,24 +714,23 @@
             const sizeEl = document.getElementById('share-filesize');
             const downloadBtn = document.getElementById('share-download-btn');
 
-            // Reads from URL parameters first so ANY USER on ANY computer can open it
-            const paramName = params.get('name');
-            const paramSize = params.get('size');
-            const paramData = params.get('data');
+            const paramName = params.get('n') || params.get('name');
+            const paramSize = params.get('s') || params.get('size');
+            const paramUrl = params.get('u') || params.get('url');
 
             const localFile = files.find(f => f.id === fileId);
 
             const fileName = paramName || (localFile ? localFile.name : null);
             const fileSize = paramSize ? parseInt(paramSize) : (localFile ? localFile.size : 0);
-            const fileData = paramData || (localFile ? localFile.dataUrl : null);
+            const downloadUrl = paramUrl || (localFile ? localFile.remoteUrl : null);
             const isShared = localFile ? localFile.shared : true;
 
             if (fileName && isShared) {
                 nameEl.textContent = fileName;
                 sizeEl.textContent = formatBytes(fileSize);
 
-                if (fileData) {
-                    downloadBtn.href = fileData;
+                if (downloadUrl) {
+                    downloadBtn.href = downloadUrl;
                     downloadBtn.setAttribute('download', fileName);
                     downloadBtn.classList.remove('pointer-events-none', 'opacity-50');
                     downloadBtn.onclick = () => {
@@ -686,10 +740,8 @@
                         }
                     };
                 } else {
-                    const blob = new Blob(["Namu Cloud Shared File Data"], { type: "application/octet-stream" });
-                    downloadBtn.href = URL.createObjectURL(blob);
-                    downloadBtn.setAttribute('download', fileName);
-                    downloadBtn.classList.remove('pointer-events-none', 'opacity-50');
+                    downloadBtn.removeAttribute('href');
+                    downloadBtn.classList.add('pointer-events-none', 'opacity-50');
                 }
             } else {
                 nameEl.textContent = '파일을 찾을 수 없거나 공유가 중지되었습니다.';

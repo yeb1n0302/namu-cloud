@@ -3,153 +3,293 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>웹사이트 정상 작동 확인</title>
+    <title>내 보관함 · Namu Cloud</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Noto+Sans+KR:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['DM Sans', 'Noto Sans KR', 'sans-serif']
+                    },
+                    colors: {
+                        ink: '#172b31',
+                        moss: '#237761',
+                        mint: '#dff3e9',
+                        paper: '#f5f7f8'
+                    },
+                    boxShadow: {
+                        soft: '0 18px 55px rgba(23, 43, 49, 0.08)'
+                    }
+                }
+            }
+        };
+    </script>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-        }
-
-        body {
-            background-color: #0f172a;
-            color: #f8fafc;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
+        .brand-mark {
+            display: inline-flex;
+            gap: 3px;
             align-items: center;
-            padding: 20px;
         }
-
-        .container {
-            background-color: #1e293b;
-            border-radius: 16px;
-            padding: 40px;
-            max-width: 480px;
-            width: 100%;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
-            text-align: center;
-            border: 1px solid #334155;
+        .brand-mark span {
+            width: 6px;
+            height: 18px;
+            background-color: #237761;
+            border-radius: 3px;
         }
-
-        h1 {
-            font-size: 1.8rem;
-            margin-bottom: 12px;
-            color: #38bdf8;
+        .brand-mark span:nth-child(2) {
+            height: 24px;
         }
-
-        p {
-            font-size: 1rem;
-            color: #94a3b8;
-            margin-bottom: 24px;
-            line-height: 1.5;
+        .brand-mark span:nth-child(3) {
+            height: 14px;
         }
-
-        .status-box {
-            background-color: #0f172a;
-            border: 1px solid #0284c7;
-            color: #38bdf8;
-            padding: 12px 16px;
-            border-radius: 8px;
-            font-size: 0.9rem;
-            margin-bottom: 24px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
+        .drop-zone {
+            border: 2px dashed #cbd5e1;
+            background-color: #ffffff;
+            border-radius: 1.5rem;
+            padding: 2.5rem 1.5rem;
+            transition: all 0.2s ease;
         }
-
-        .status-dot {
-            width: 8px;
-            height: 8px;
-            background-color: #22c55e;
-            border-radius: 50%;
-            display: inline-block;
-            box-shadow: 0 0 8px #22c55e;
+        .drop-zone.dragover {
+            border-color: #237761;
+            background-color: #dff3e9;
         }
-
-        .counter-box {
-            margin-bottom: 8px;
-        }
-
-        .count-display {
-            font-size: 3rem;
-            font-weight: bold;
-            color: #f8fafc;
-            margin-bottom: 16px;
-        }
-
-        .btn-group {
-            display: flex;
-            gap: 12px;
-            justify-content: center;
-        }
-
-        button {
-            background-color: #2563eb;
+        .primary-button {
+            background-color: #237761;
             color: #ffffff;
-            border: none;
-            padding: 12px 24px;
-            border-radius: 8px;
-            font-size: 1rem;
             font-weight: 600;
-            cursor: pointer;
-            transition: background-color 0.2s ease, transform 0.1s ease;
+            padding: 0.625rem 1.25rem;
+            border-radius: 0.75rem;
+            transition: background-color 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
         }
-
-        button:hover {
-            background-color: #1d4ed8;
+        .primary-button:hover {
+            background-color: #185c4b;
         }
-
-        button:active {
-            transform: scale(0.98);
+        .quiet-button {
+            color: #64748b;
+            font-weight: 500;
+            padding: 0.5rem 0.875rem;
+            border-radius: 0.5rem;
+            transition: background-color 0.2s ease, color 0.2s ease;
         }
-
-        button.reset {
-            background-color: #475569;
+        .quiet-button:hover {
+            background-color: #f1f5f9;
+            color: #172b31;
         }
-
-        button.reset:hover {
-            background-color: #334155;
+        .stat-chip {
+            background-color: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 1rem;
+            padding: 0.5rem 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.875rem;
+        }
+        .stat-label {
+            color: #64748b;
         }
     </style>
 </head>
-<body>
-
-    <div class="container">
-        <h1>Netlify 배포 성공!</h1>
-        <p>웹사이트가 정상적으로 작동하고 있습니다.<br>아래 버튼을 눌러 동작 테스트를 해보세요.</p>
-
-        <div class="status-box">
-            <span class="status-dot"></span>
-            <span>서버 연결 상태: 정상</span>
-        </div>
-
-        <div class="counter-box">
-            <div class="count-display" id="count">0</div>
-            <div class="btn-group">
-                <button onclick="increaseCount()">카운트 증가</button>
-                <button class="reset" onclick="resetCount()">초기화</button>
+<body class="min-h-screen bg-paper font-sans text-ink antialiased">
+    <div class="min-h-screen">
+        <!-- Header -->
+        <header class="border-b border-slate-200/80 bg-white/80 backdrop-blur">
+            <div class="mx-auto flex max-w-7xl items-center justify-between px-5 py-4 sm:px-8">
+                <a href="#" class="inline-flex items-center gap-3 text-lg font-semibold tracking-tight">
+                    <span class="brand-mark" aria-hidden="true">
+                        <span></span><span></span><span></span>
+                    </span>
+                    <span class="flex flex-col leading-tight">
+                        <span>Namu Cloud</span>
+                        <span class="mt-0.5 text-[9px] font-medium tracking-normal text-slate-400">Made by 파엠학개론 ( y.ed1 )</span>
+                    </span>
+                </a>
+                <div class="flex items-center gap-3 sm:gap-5">
+                    <div class="hidden text-right sm:block">
+                        <p class="text-sm font-semibold text-ink">게스트 사용자</p>
+                        <p class="text-xs text-slate-500">guest@namucloud.local</p>
+                    </div>
+                    <span class="flex h-9 w-9 items-center justify-center rounded-full bg-mint text-sm font-bold text-moss">G</span>
+                </div>
             </div>
-        </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="mx-auto max-w-7xl px-5 pb-16 pt-10 sm:px-8 sm:pt-14">
+            <section class="mb-9 flex flex-col justify-between gap-5 md:flex-row md:items-end">
+                <div>
+                    <p class="mb-2 text-sm font-semibold tracking-wide text-moss">내 파일</p>
+                    <h1 class="text-3xl font-semibold tracking-[-0.045em] sm:text-4xl">안녕하세요, Namu Cloud에 오신 것을 환영합니다</h1>
+                    <p class="mt-2 text-sm text-slate-500">파일을 한곳에 모으고, 필요한 순간에 꺼내 쓰세요.</p>
+                </div>
+                <div class="flex gap-3">
+                    <div class="stat-chip">
+                        <span class="stat-label">파일</span>
+                        <strong id="file-count">0개</strong>
+                    </div>
+                    <div class="stat-chip">
+                        <span class="stat-label">사용 중</span>
+                        <strong id="storage-used">0 B</strong>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Drop Zone -->
+            <section id="drop-zone" class="drop-zone mb-10 text-center">
+                <input id="file-input" type="file" multiple class="hidden">
+                <div class="mx-auto max-w-xl">
+                    <div class="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-mint text-moss">
+                        <svg class="h-7 w-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 16V4m0 0L7.5 8.5M12 4l4.5 4.5M4.5 15.5v2A2.5 2.5 0 0 0 7 20h10a2.5 2.5 0 0 0 2.5-2.5v-2" />
+                        </svg>
+                    </div>
+                    <h2 class="text-lg font-semibold tracking-tight">파일을 여기에 놓으세요</h2>
+                    <p class="mt-2 text-sm text-slate-500">또는 기기에서 파일을 선택해 업로드하세요.</p>
+                    <button id="choose-files" type="button" class="primary-button mt-5">파일 선택</button>
+                </div>
+            </section>
+
+            <!-- File Table -->
+            <section>
+                <div class="mb-4 flex flex-col justify-between gap-3 sm:flex-row sm:items-center">
+                    <div>
+                        <h2 class="text-xl font-semibold tracking-tight">모든 파일</h2>
+                        <p class="mt-1 text-sm text-slate-500">내가 업로드한 파일을 관리하고 다운로드할 수 있습니다.</p>
+                    </div>
+                    <div class="relative">
+                        <input id="file-search" type="search" placeholder="파일 검색" autocomplete="off" class="w-full rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm focus:border-moss focus:outline-none sm:w-64">
+                    </div>
+                </div>
+
+                <div class="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-soft">
+                    <div class="hidden grid-cols-12 border-b border-slate-100 bg-slate-50 px-6 py-3.5 text-xs font-semibold text-slate-500 sm:grid">
+                        <span class="col-span-6">파일 이름</span>
+                        <span class="col-span-2">크기</span>
+                        <span class="col-span-2">업로드 날짜</span>
+                        <span class="col-span-2 text-right">작업</span>
+                    </div>
+                    <div id="file-list" class="divide-y divide-slate-100">
+                        <div id="empty-state" class="p-12 text-center text-sm text-slate-400">
+                            업로드된 파일이 없습니다. 위에 파일을 끌어다 놓아보세요.
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <p class="mt-7 text-center text-xs leading-5 text-slate-400">Namu Cloud · 브라우저 로컬 저장소 모드로 구동 중입니다.</p>
+        </main>
     </div>
 
     <script>
-        let count = 0;
-        const countElement = document.getElementById('count');
+        const dropZone = document.getElementById('drop-zone');
+        const fileInput = document.getElementById('file-input');
+        const chooseFilesBtn = document.getElementById('choose-files');
+        const fileListContainer = document.getElementById('file-list');
+        const fileCountEl = document.getElementById('file-count');
+        const storageUsedEl = document.getElementById('storage-used');
+        const fileSearchInput = document.getElementById('file-search');
 
-        function increaseCount() {
-            count++;
-            countElement.textContent = count;
+        let storedFiles = [];
+
+        chooseFilesBtn.addEventListener('click', () => fileInput.click());
+
+        fileInput.addEventListener('change', (e) => {
+            handleFiles(e.target.files);
+            fileInput.value = '';
+        });
+
+        dropZone.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            dropZone.classList.add('dragover');
+        });
+
+        dropZone.addEventListener('dragleave', () => {
+            dropZone.classList.remove('dragover');
+        });
+
+        dropZone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            dropZone.classList.remove('dragover');
+            handleFiles(e.dataTransfer.files);
+        });
+
+        function formatBytes(bytes) {
+            if (bytes === 0) return '0 B';
+            const k = 1024;
+            const sizes = ['B', 'KB', 'MB', 'GB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            return parseFloat((bytes / Math.pow(k, i)).toFixed(1)) + ' ' + sizes[i];
         }
 
-        function resetCount() {
-            count = 0;
-            countElement.textContent = count;
+        function handleFiles(files) {
+            for (const file of files) {
+                const fileObj = {
+                    id: Date.now() + Math.random().toString(36).substring(2, 7),
+                    name: file.name,
+                    size: file.size,
+                    date: new Date().toLocaleDateString('ko-KR'),
+                    blobUrl: URL.createObjectURL(file)
+                };
+                storedFiles.unshift(fileObj);
+            }
+            renderFileList();
         }
+
+        function deleteFile(id) {
+            storedFiles = storedFiles.filter(f => f.id !== id);
+            renderFileList();
+        }
+
+        function renderFileList() {
+            const searchTerm = fileSearchInput.value.toLowerCase();
+            const filteredFiles = storedFiles.filter(f => f.name.toLowerCase().includes(searchTerm));
+
+            fileCountEl.textContent = `${storedFiles.length}개`;
+            const totalBytes = storedFiles.reduce((acc, cur) => acc + cur.size, 0);
+            storageUsedEl.textContent = formatBytes(totalBytes);
+
+            if (filteredFiles.length === 0) {
+                fileListContainer.innerHTML = `
+                    <div class="p-12 text-center text-sm text-slate-400">
+                        ${storedFiles.length === 0 ? '업로드된 파일이 없습니다. 위에 파일을 끌어다 놓아보세요.' : '검색 결과와 일치하는 파일이 없습니다.'}
+                    </div>
+                `;
+                return;
+            }
+
+            fileListContainer.innerHTML = '';
+            filteredFiles.forEach(file => {
+                const item = document.createElement('div');
+                item.className = 'grid grid-cols-1 sm:grid-cols-12 items-center gap-2 px-6 py-4 hover:bg-slate-50/80 transition-colors';
+                item.innerHTML = `
+                    <div class="sm:col-span-6 flex items-center gap-3">
+                        <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-slate-100 text-slate-600">
+                            <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M7 3.75h6.2L19 9.55v10.7H7z" />
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M13 3.75v6h6" />
+                            </svg>
+                        </div>
+                        <span class="font-medium text-ink truncate">${file.name}</span>
+                    </div>
+                    <div class="sm:col-span-2 text-xs text-slate-500">${formatBytes(file.size)}</div>
+                    <div class="sm:col-span-2 text-xs text-slate-500">${file.date}</div>
+                    <div class="sm:col-span-2 flex items-center justify-end gap-2">
+                        <a href="${file.blobUrl}" download="${file.name}" class="quiet-button text-xs !py-1.5">다운로드</a>
+                        <button onclick="deleteFile('${file.id}')" class="quiet-button text-xs text-rose-600 hover:bg-rose-50 !py-1.5">삭제</button>
+                    </div>
+                `;
+                fileListContainer.appendChild(item);
+            });
+        }
+
+        fileSearchInput.addEventListener('input', renderFileList);
     </script>
-
 </body>
 </html>

@@ -3,7 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Namu Cloud</title>
+    <title>Namu Cloud — 내 파일 보관함 & 공유</title>
+
+    <!-- 디스코드 / SNS 임베드 (Open Graph) 설정 -->
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Namu Cloud">
+    <meta property="og:title" content="Namu Cloud">
+    <meta property="og:description" content="파일을 안전하게 보관하고, 필요한 사람과 링크 하나로 간편하게 나누세요.">
+    <!-- 임베드에 표시될 로고 이미지 (대형 파일/클라우드 아이콘) -->
+    <meta property="og:image" content="https://img.icons8.com/isometric-folders/512/000000/folder-in-the-cloud.png">
+    <meta name="theme-color" content="#237761">
+    <meta name="twitter:card" content="summary_large_image">
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Noto+Sans+KR:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -509,7 +520,7 @@
 
         function saveFiles() {
             localStorage.setItem('namu_files', JSON.stringify(files.map(f => ({
-                ...f, dataUrl: '' // Avoid localStorage quota overflow for massive blobs
+                ...f, dataUrl: ''
             }))));
         }
 

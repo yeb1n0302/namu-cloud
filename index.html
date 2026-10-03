@@ -5,16 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title id="page-title">Namu Cloud — 내 파일 보관함 & 공유</title>
 
-    <!-- 디스코드 / SNS 오픈 그래프 (임베드) 설정 -->
+    <!-- 디스코드 / SNS 오픈 그래프 설정 -->
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="Namu Cloud">
     <meta property="og:title" id="og-title-tag" content="Namu Cloud">
     <meta property="og:description" content="파일을 안전하게 보관하고, 필요한 사람과 링크 하나로 간편하게 나누세요.">
-    <!-- 요청하신 이미지 적용 -->
     <meta property="og:image" content="https://media.discordapp.net/attachments/1406081457893675010/1555952247664418897/e91eda9b-d970-477e-9add-25dfa046730a.png?backend=b2&amp;ex=6ac264f4&amp;is=6ac11374&amp;hm=b8909b4dc350f535f8cae38c95c90788f89f36d87c442eee9ae57c7da3dc834d&amp;=&amp;format=webp&amp;quality=lossless&amp;width=768&amp;height=768">
     <meta property="og:image:type" content="image/png">
     <meta name="theme-color" content="#237761">
-    <!-- 디스코드에서 이미지가 크게 보이도록 설정 -->
     <meta name="twitter:card" content="summary_large_image">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -314,7 +312,6 @@
                             </svg>
                             <span id="upload-status-text">저장하는 중 ( 진행상황 : 0% )</span>
                         </div>
-                        <!-- 프로그레스 바 -->
                         <div class="w-full bg-slate-200 h-2 rounded-full overflow-hidden">
                             <div id="upload-progress-bar" class="bg-moss h-full transition-all duration-75" style="width: 0%;"></div>
                         </div>
@@ -390,12 +387,12 @@
                             </div>
                         </dl>
 
-                        <a id="share-download-btn" href="#" download class="primary-button mt-7 w-full" target="_blank" rel="noopener noreferrer">
+                        <button id="share-download-btn" type="button" class="primary-button mt-7 w-full">
                             <svg viewBox="0 0 24 24" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="1.8">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M12 3.75v11.5m0 0 4.25-4.25M12 15.25l-4.25-4.25M5 16.75v3.5h14v-3.5" />
                             </svg>
                             파일 다운로드
-                        </a>
+                        </button>
                     </div>
                     <div class="border-t border-slate-100 px-7 py-4 text-center text-xs text-slate-400 sm:px-10">
                         Netlify 호스팅을 사용하였습니다.
@@ -420,7 +417,6 @@
 
     <!-- APPLICATION LOGIC -->
     <script>
-        // IndexedDB 대용량 로컬 파일 스토리지 엔진
         const DB_NAME = 'NamuCloudDB_v2';
         const DB_VERSION = 1;
         const STORE_NAME = 'file_blobs';
@@ -469,12 +465,10 @@
             });
         }
 
-        // Global State
         let currentUser = JSON.parse(localStorage.getItem('namu_user')) || null;
         let files = JSON.parse(localStorage.getItem('namu_files')) || [];
         let editingFileId = null;
 
-        // Route Manager
         function navigate() {
             const hash = window.location.hash || '#register';
             document.querySelectorAll('[id^="view-"]').forEach(el => el.classList.add('hidden'));
@@ -519,7 +513,6 @@
             return 'sk_' + Date.now() + '_' + Math.random().toString(36).substr(2, 6);
         }
 
-        // Auth
         document.getElementById('register-form').addEventListener('submit', (e) => {
             e.preventDefault();
             const name = document.getElementById('reg-name').value;
@@ -543,7 +536,6 @@
             window.location.hash = '#login';
         });
 
-        // Elements
         const dropZone = document.getElementById('drop-zone');
         const fileInput = document.getElementById('file-input');
         const statusBox = document.getElementById('upload-status-box');
@@ -570,14 +562,12 @@
             handleUploadFiles(e.dataTransfer.files);
         });
 
-        // 업로드 진행상황 업데이트 함수 (텔레포트 없이 1% 단위 부드러운 업데이트)
         function updateProgress(percent, msg) {
             const p = Math.min(100, Math.max(0, Math.round(percent)));
             progressBar.style.width = p + '%';
             statusText.textContent = `저장하는 중 ( 진행상황 : ${p}% ${msg ? '- ' + msg : ''} )`;
         }
 
-        // 업로드 + 클라우드 사전 동기화 엔진
         async function handleUploadFiles(fileList) {
             const arr = Array.from(fileList);
             if (arr.length === 0) return;
@@ -590,12 +580,10 @@
                 const fileId = 'file_' + Date.now() + '_' + Math.random().toString(36).substr(2, 5);
 
                 try {
-                    // 1. IndexedDB 로컬 저장
                     updateProgress(5, `로컬 저장소 기록 중 (${file.name})`);
                     await saveBlobToIDB(fileId, file);
                     updateProgress(15, `클라우드 서버 동기화 시작`);
 
-                    // 2. 실시간 XHR 바이트 추적 업로드
                     let remoteUrl = await uploadWithXHR('https://tmpfiles.org/api/v1/upload', file, file.name, (p) => {
                         const mapped = 15 + (p * 0.75);
                         updateProgress(mapped, `${file.name} 네트워크 전송 중`);
@@ -637,7 +625,6 @@
             }, 2500);
         }
 
-        // XHR 업로드엔진 (실시간 프로그레스 반환)
         function uploadWithXHR(apiUrl, fileBlob, fileName, onProgress) {
             return new Promise((resolve) => {
                 const xhr = new XMLHttpRequest();
@@ -670,7 +657,6 @@
             });
         }
 
-        // 보조 업로드 API
         async function uploadToLitterbox(fileBlob, fileName) {
             try {
                 const formData = new FormData();
@@ -771,7 +757,7 @@
                     a.click();
                     URL.revokeObjectURL(url);
                 } else if (file.remoteUrl) {
-                    window.open(file.remoteUrl, '_blank');
+                    downloadFileByFetch(file.remoteUrl, file.name);
                 } else {
                     alert('파일 원본을 찾을 수 없습니다.');
                 }
@@ -780,7 +766,23 @@
             }
         }
 
-        // 공유 상태 토글
+        async function downloadFileByFetch(url, filename) {
+            try {
+                const response = await fetch(url);
+                const blob = await response.blob();
+                const blobUrl = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = blobUrl;
+                a.download = filename;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(blobUrl);
+            } catch (e) {
+                window.open(url, '_blank');
+            }
+        }
+
         function toggleShare(id) {
             const file = files.find(f => f.id === id);
             if (!file) return;
@@ -797,7 +799,6 @@
             renderDashboard();
         }
 
-        // 0초 즉시 링크 복사 기능
         async function copyShareLink(id) {
             const file = files.find(f => f.id === id);
             if (!file) return;
@@ -832,7 +833,6 @@
             renderDashboard();
         }
 
-        // Rename Modal
         const renameDialog = document.getElementById('rename-dialog');
         function openRenameModal(id) {
             editingFileId = id;
@@ -856,7 +856,7 @@
             renameDialog.close();
         });
 
-        // Share Download View (제목을 파일 이름으로 동적 설정)
+        // Share Download View
         function showShareView(params) {
             document.getElementById('view-share').classList.remove('hidden');
 
@@ -883,25 +883,13 @@
                 nameEl.textContent = fileName;
                 sizeEl.textContent = formatBytes(fileSize);
 
-                // 웹페이지 탭 제목(title) 및 디스코드 임베드 타이틀을 파일 이름으로 변경
                 document.getElementById('page-title').textContent = fileName + ' — Namu Cloud';
                 const ogTitle = document.getElementById('og-title-tag');
                 if (ogTitle) ogTitle.setAttribute('content', fileName);
 
-                if (downloadUrl) {
-                    downloadBtn.href = downloadUrl;
-                    downloadBtn.setAttribute('download', fileName);
-                    downloadBtn.classList.remove('pointer-events-none', 'opacity-50');
-                    downloadBtn.onclick = () => {
-                        if (localFile) {
-                            localFile.downloads++;
-                            saveMetadata();
-                        }
-                    };
-                } else if (localFile) {
-                    downloadBtn.classList.remove('pointer-events-none', 'opacity-50');
-                    downloadBtn.onclick = async (e) => {
-                        e.preventDefault();
+                downloadBtn.classList.remove('pointer-events-none', 'opacity-50');
+                downloadBtn.onclick = async () => {
+                    if (localFile) {
                         localFile.downloads++;
                         saveMetadata();
                         const blob = await getBlobFromIDB(localFile.id);
@@ -912,9 +900,13 @@
                             a.download = fileName;
                             a.click();
                             URL.revokeObjectURL(url);
+                            return;
                         }
-                    };
-                }
+                    }
+                    if (downloadUrl) {
+                        downloadFileByFetch(downloadUrl, fileName);
+                    }
+                };
             } else {
                 renderShareError();
             }
@@ -923,7 +915,6 @@
                 nameEl.textContent = '파일을 찾을 수 없거나 공유가 중지되었습니다.';
                 sizeEl.textContent = '0 B';
                 document.getElementById('page-title').textContent = '파일을 찾을 수 없음 — Namu Cloud';
-                downloadBtn.removeAttribute('href');
                 downloadBtn.classList.add('pointer-events-none', 'opacity-50');
             }
         }

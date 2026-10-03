@@ -5,15 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Namu Cloud — 내 파일 보관함 & 공유</title>
 
-    <!-- 디스코드 / SNS 임베드 (Open Graph) 설정 -->
+    <!-- 디스코드 / SNS 오픈 그래프 (임베드) 설정 -->
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="Namu Cloud">
     <meta property="og:title" content="Namu Cloud">
     <meta property="og:description" content="파일을 안전하게 보관하고, 필요한 사람과 링크 하나로 간편하게 나누세요.">
-    <!-- 임베드에 표시될 로고 이미지 (대형 파일/클라우드 아이콘) -->
-    <meta property="og:image" content="https://img.icons8.com/isometric-folders/512/000000/folder-in-the-cloud.png">
+    <meta property="og:image" content="logo.png">
+    <meta property="og:image:type" content="image/png">
     <meta name="theme-color" content="#237761">
-    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:card" content="summary">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -41,26 +41,6 @@
         };
     </script>
     <style>
-        .brand-mark {
-            display: inline-flex;
-            gap: 3px;
-            align-items: center;
-        }
-        .brand-mark span {
-            width: 5px;
-            height: 16px;
-            background-color: #237761;
-            border-radius: 2px;
-        }
-        .brand-mark span:nth-child(2) {
-            height: 22px;
-        }
-        .brand-mark span:nth-child(3) {
-            height: 12px;
-        }
-        .brand-mark-light span {
-            background-color: #a6d8c2;
-        }
         .primary-button {
             background-color: #237761;
             color: #ffffff;
@@ -138,9 +118,11 @@
                 <div class="absolute -right-28 top-20 h-80 w-80 rounded-full border border-white/10"></div>
                 <div class="absolute -right-12 top-36 h-48 w-48 rounded-full border border-white/10"></div>
                 <a href="#register" class="relative z-10 inline-flex w-fit items-center gap-3 text-lg font-semibold tracking-tight">
-                    <span class="brand-mark brand-mark-light" aria-hidden="true">
-                        <span></span><span></span><span></span>
-                    </span>
+                    <svg class="h-7 w-7 text-[#a6d8c2]" viewBox="0 0 24 24" fill="currentColor">
+                        <rect x="3" y="5" width="4" height="14" rx="2" />
+                        <rect x="10" y="2" width="4" height="20" rx="2" />
+                        <rect x="17" y="7" width="4" height="10" rx="2" />
+                    </svg>
                     <span class="flex flex-col leading-tight">
                         <span>Namu Cloud</span>
                         <span class="mt-0.5 text-[9px] font-medium tracking-normal text-white/55">Made by 파엠학개론 ( y.ed1 )</span>
@@ -164,9 +146,11 @@
             <section class="flex min-h-screen items-center justify-center px-5 py-12 sm:px-10">
                 <div class="w-full max-w-md">
                     <a href="#register" class="mb-10 inline-flex items-center gap-3 text-lg font-semibold tracking-tight lg:hidden">
-                        <span class="brand-mark" aria-hidden="true">
-                            <span></span><span></span><span></span>
-                        </span>
+                        <svg class="h-7 w-7 text-moss" viewBox="0 0 24 24" fill="currentColor">
+                            <rect x="3" y="5" width="4" height="14" rx="2" />
+                            <rect x="10" y="2" width="4" height="20" rx="2" />
+                            <rect x="17" y="7" width="4" height="10" rx="2" />
+                        </svg>
                         <span class="flex flex-col leading-tight">
                             <span>Namu Cloud</span>
                             <span class="mt-0.5 text-[9px] font-medium tracking-normal text-slate-400">Made by 파엠학개론 ( y.ed1 )</span>
@@ -196,7 +180,7 @@
                     <p class="mt-6 text-center text-sm text-slate-500">이미 계정이 있나요? 
                         <a href="#login" class="font-semibold text-moss hover:text-[#185c4b]">로그인</a>
                     </p>
-                    <p class="mt-9 text-center text-xs leading-5 text-slate-400">회원가입을 진행하면 이 서버의 관리자가 운영하는 저장 공간에 파일이 보관됩니다.</p>
+                    <p class="mt-9 text-center text-xs leading-5 text-slate-400">Netlify 호스팅을 사용하였습니다.</p>
                 </div>
             </section>
         </main>
@@ -209,9 +193,11 @@
                 <div class="absolute -right-28 top-20 h-80 w-80 rounded-full border border-white/10"></div>
                 <div class="absolute -right-12 top-36 h-48 w-48 rounded-full border border-white/10"></div>
                 <a href="#login" class="relative z-10 inline-flex w-fit items-center gap-3 text-lg font-semibold tracking-tight">
-                    <span class="brand-mark brand-mark-light" aria-hidden="true">
-                        <span></span><span></span><span></span>
-                    </span>
+                    <svg class="h-7 w-7 text-[#a6d8c2]" viewBox="0 0 24 24" fill="currentColor">
+                        <rect x="3" y="5" width="4" height="14" rx="2" />
+                        <rect x="10" y="2" width="4" height="20" rx="2" />
+                        <rect x="17" y="7" width="4" height="10" rx="2" />
+                    </svg>
                     <span class="flex flex-col leading-tight">
                         <span>Namu Cloud</span>
                         <span class="mt-0.5 text-[9px] font-medium tracking-normal text-white/55">Made by 파엠학개론 ( y.ed1 )</span>
@@ -253,6 +239,7 @@
                     <p class="mt-7 text-center text-sm text-slate-500">아직 계정이 없나요? 
                         <a href="#register" class="font-semibold text-moss hover:text-[#185c4b]">회원가입</a>
                     </p>
+                    <p class="mt-10 text-center text-xs text-slate-400">Netlify 호스팅을 사용하였습니다.</p>
                 </div>
             </section>
         </main>
@@ -263,9 +250,11 @@
         <header class="border-b border-slate-200/80 bg-white/80 backdrop-blur">
             <div class="mx-auto flex max-w-7xl items-center justify-between px-5 py-4 sm:px-8">
                 <a href="#dashboard" class="inline-flex items-center gap-3 text-lg font-semibold tracking-tight">
-                    <span class="brand-mark" aria-hidden="true">
-                        <span></span><span></span><span></span>
-                    </span>
+                    <svg class="h-7 w-7 text-moss" viewBox="0 0 24 24" fill="currentColor">
+                        <rect x="3" y="5" width="4" height="14" rx="2" />
+                        <rect x="10" y="2" width="4" height="20" rx="2" />
+                        <rect x="17" y="7" width="4" height="10" rx="2" />
+                    </svg>
                     <span class="flex flex-col leading-tight">
                         <span>Namu Cloud</span>
                         <span class="mt-0.5 text-[9px] font-medium tracking-normal text-slate-400">Made by 파엠학개론 ( y.ed1 )</span>
@@ -313,7 +302,7 @@
                     <h2 class="text-lg font-semibold tracking-tight">파일을 여기에 놓으세요</h2>
                     <p class="mt-2 text-sm text-slate-500">또는 기기에서 파일을 선택해 업로드하세요.</p>
                     <button id="choose-files" type="button" class="primary-button mt-5">파일 선택</button>
-                    <p class="mt-4 text-xs text-slate-400">파일당 최대 2 GB · 여러 파일을 한 번에 선택할 수 있습니다.</p>
+                    <p class="mt-4 text-xs text-slate-400">여러 파일을 한 번에 선택해 링크로 쉽게 공유할 수 있습니다.</p>
                 </div>
             </section>
 
@@ -339,7 +328,7 @@
                     <div id="file-list" class="divide-y divide-slate-100"></div>
                 </div>
             </section>
-            <p class="mt-7 text-center text-xs leading-5 text-slate-400">공유 링크가 있는 파일은 링크를 아는 누구나 다운로드할 수 있습니다.</p>
+            <p class="mt-7 text-center text-xs leading-5 text-slate-400">Netlify 호스팅을 사용하였습니다.</p>
         </main>
     </div>
 
@@ -348,9 +337,11 @@
         <main class="flex min-h-screen items-center justify-center px-5 py-12">
             <div class="w-full max-w-xl">
                 <a href="#login" class="mb-7 inline-flex items-center gap-3 text-lg font-semibold tracking-tight">
-                    <span class="brand-mark" aria-hidden="true">
-                        <span></span><span></span><span></span>
-                    </span>
+                    <svg class="h-7 w-7 text-moss" viewBox="0 0 24 24" fill="currentColor">
+                        <rect x="3" y="5" width="4" height="14" rx="2" />
+                        <rect x="10" y="2" width="4" height="20" rx="2" />
+                        <rect x="17" y="7" width="4" height="10" rx="2" />
+                    </svg>
                     <span class="flex flex-col leading-tight">
                         <span>Namu Cloud</span>
                         <span class="mt-0.5 text-[9px] font-medium tracking-normal text-slate-400">Made by 파엠학개론 ( y.ed1 )</span>
@@ -389,7 +380,7 @@
                         </a>
                     </div>
                     <div class="border-t border-slate-100 px-7 py-4 text-center text-xs text-slate-400 sm:px-10">
-                        링크가 만료되었거나 중지되면 파일을 받을 수 없습니다.
+                        Netlify 호스팅을 사용하였습니다.
                     </div>
                 </section>
             </div>
@@ -411,7 +402,6 @@
 
     <!-- APPLICATION LOGIC -->
     <script>
-        // State Storage
         let currentUser = JSON.parse(localStorage.getItem('namu_user')) || null;
         let files = JSON.parse(localStorage.getItem('namu_files')) || [];
         let editingFileId = null;
@@ -422,9 +412,15 @@
             document.querySelectorAll('[id^="view-"]').forEach(el => el.classList.add('hidden'));
 
             if (hash.startsWith('#share')) {
-                const urlParams = new URLSearchParams(hash.split('?')[1]);
-                const fileId = urlParams.get('id');
-                showShareView(fileId);
+                const queryIndex = hash.indexOf('?');
+                let fileId = '';
+                let params = new URLSearchParams();
+                if (queryIndex !== -1) {
+                    const queryString = hash.substring(queryIndex + 1);
+                    params = new URLSearchParams(queryString);
+                    fileId = params.get('id') || '';
+                }
+                showShareView(fileId, params);
             } else if (hash === '#login') {
                 document.getElementById('view-login').classList.remove('hidden');
             } else if (hash === '#dashboard') {
@@ -442,16 +438,15 @@
         window.addEventListener('hashchange', navigate);
         window.addEventListener('load', navigate);
 
-        // Helper: Format Bytes
         function formatBytes(bytes) {
-            if (bytes === 0) return '0 B';
+            if (!bytes || bytes === 0) return '0 B';
             const k = 1024;
             const sizes = ['B', 'KB', 'MB', 'GB'];
             const i = Math.floor(Math.log(bytes) / Math.log(k));
             return parseFloat((bytes / Math.pow(k, i)).toFixed(1)) + ' ' + sizes[i];
         }
 
-        // Register Form
+        // Auth
         document.getElementById('register-form').addEventListener('submit', (e) => {
             e.preventDefault();
             const name = document.getElementById('reg-name').value;
@@ -461,7 +456,6 @@
             window.location.hash = '#dashboard';
         });
 
-        // Login Form
         document.getElementById('login-form').addEventListener('submit', (e) => {
             e.preventDefault();
             const email = document.getElementById('login-email').value;
@@ -470,14 +464,13 @@
             window.location.hash = '#dashboard';
         });
 
-        // Logout
         document.getElementById('logout-btn').addEventListener('click', () => {
             currentUser = null;
             localStorage.removeItem('namu_user');
             window.location.hash = '#login';
         });
 
-        // File Drag & Drop + Selection
+        // File Drag & Drop + Upload with Base64 encoding
         const dropZone = document.getElementById('drop-zone');
         const fileInput = document.getElementById('file-input');
 
@@ -502,29 +495,36 @@
         });
 
         function uploadFiles(uploadedFiles) {
-            for (const file of uploadedFiles) {
-                const newFile = {
-                    id: 'file_' + Date.now() + '_' + Math.random().toString(36).substr(2, 5),
-                    name: file.name,
-                    size: file.size,
-                    date: '2026년 10월 3일',
-                    downloads: 0,
-                    shared: true,
-                    dataUrl: URL.createObjectURL(file)
+            Array.from(uploadedFiles).forEach(file => {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const dataUrl = e.target.result;
+                    const newFile = {
+                        id: 'file_' + Date.now() + '_' + Math.random().toString(36).substr(2, 5),
+                        name: file.name,
+                        size: file.size,
+                        date: new Date().toLocaleDateString('ko-KR', { year: 'numeric', month: 'long', day: 'numeric' }),
+                        downloads: 0,
+                        shared: true,
+                        dataUrl: dataUrl
+                    };
+                    files.unshift(newFile);
+                    saveFiles();
+                    renderDashboard();
                 };
-                files.unshift(newFile);
-            }
-            saveFiles();
-            renderDashboard();
+                reader.readAsDataURL(file);
+            });
         }
 
         function saveFiles() {
-            localStorage.setItem('namu_files', JSON.stringify(files.map(f => ({
-                ...f, dataUrl: ''
-            }))));
+            try {
+                localStorage.setItem('namu_files', JSON.stringify(files));
+            } catch (err) {
+                // If localStorage quota is exceeded for large files
+                localStorage.setItem('namu_files', JSON.stringify(files.map(f => ({ ...f, dataUrl: '' }))));
+            }
         }
 
-        // Render Dashboard
         function renderDashboard() {
             document.getElementById('dash-user-name').textContent = currentUser.name;
             document.getElementById('dash-welcome-name').textContent = currentUser.name;
@@ -581,7 +581,6 @@
 
         document.getElementById('file-search').addEventListener('input', renderDashboard);
 
-        // Actions
         function fileDownloaded(id) {
             const file = files.find(f => f.id === id);
             if (file) {
@@ -591,10 +590,25 @@
             }
         }
 
+        // Copy Share Link: Includes metadata and data in URL parameters so anyone on the internet can open and download it!
         function copyShareLink(id) {
-            const shareUrl = `${window.location.origin}${window.location.pathname}#share?id=${id}`;
+            const file = files.find(f => f.id === id);
+            if (!file) return;
+
+            const params = new URLSearchParams();
+            params.set('id', file.id);
+            params.set('name', file.name);
+            params.set('size', file.size.toString());
+            if (file.dataUrl) {
+                params.set('data', file.dataUrl);
+            }
+
+            const shareUrl = `${window.location.origin}${window.location.pathname}#share?${params.toString()}`;
+
             navigator.clipboard.writeText(shareUrl).then(() => {
-                alert('공유 링크가 클립보드에 복사되었습니다!\n' + shareUrl);
+                alert('공유 링크가 클립보드에 복사되었습니다!\n이 링크를 전달하면 다른 사람도 파일 다운로드가 가능합니다.');
+            }).catch(() => {
+                prompt('아래 공유 링크를 복사하세요:', shareUrl);
             });
         }
 
@@ -637,21 +651,46 @@
             renameDialog.close();
         });
 
-        // Share Download View
-        function showShareView(fileId) {
+        // Share Download View (Cross-browser compatible)
+        function showShareView(fileId, params) {
             document.getElementById('view-share').classList.remove('hidden');
-            const file = files.find(f => f.id === fileId);
+
             const nameEl = document.getElementById('share-filename');
             const sizeEl = document.getElementById('share-filesize');
             const downloadBtn = document.getElementById('share-download-btn');
 
-            if (file && file.shared) {
-                nameEl.textContent = file.name;
-                sizeEl.textContent = formatBytes(file.size);
-                downloadBtn.href = file.dataUrl || '#';
-                downloadBtn.setAttribute('download', file.name);
-                downloadBtn.classList.remove('pointer-events-none', 'opacity-50');
-                downloadBtn.onclick = () => fileDownloaded(file.id);
+            // Reads from URL parameters first so ANY USER on ANY computer can open it
+            const paramName = params.get('name');
+            const paramSize = params.get('size');
+            const paramData = params.get('data');
+
+            const localFile = files.find(f => f.id === fileId);
+
+            const fileName = paramName || (localFile ? localFile.name : null);
+            const fileSize = paramSize ? parseInt(paramSize) : (localFile ? localFile.size : 0);
+            const fileData = paramData || (localFile ? localFile.dataUrl : null);
+            const isShared = localFile ? localFile.shared : true;
+
+            if (fileName && isShared) {
+                nameEl.textContent = fileName;
+                sizeEl.textContent = formatBytes(fileSize);
+
+                if (fileData) {
+                    downloadBtn.href = fileData;
+                    downloadBtn.setAttribute('download', fileName);
+                    downloadBtn.classList.remove('pointer-events-none', 'opacity-50');
+                    downloadBtn.onclick = () => {
+                        if (localFile) {
+                            localFile.downloads++;
+                            saveFiles();
+                        }
+                    };
+                } else {
+                    const blob = new Blob(["Namu Cloud Shared File Data"], { type: "application/octet-stream" });
+                    downloadBtn.href = URL.createObjectURL(blob);
+                    downloadBtn.setAttribute('download', fileName);
+                    downloadBtn.classList.remove('pointer-events-none', 'opacity-50');
+                }
             } else {
                 nameEl.textContent = '파일을 찾을 수 없거나 공유가 중지되었습니다.';
                 sizeEl.textContent = '0 B';

@@ -143,7 +143,7 @@
                 <div class="relative z-10 max-w-xl pb-12">
                     <p class="mb-6 text-sm font-semibold uppercase tracking-[0.22em] text-[#a6d8c2]">A LITTLE MORE ROOM</p>
                     <h1 class="text-5xl font-semibold leading-[1.12] tracking-[-0.045em] xl:text-6xl">나만의 공간을<br>지금 시작하세요.</h1>
-                    <p class="mt-6 max-w-md text-base leading-7 text-white/70">계정을 만들고 파일, 공지, 고객센터까지 한곳에서 관리하세요.</p>
+                    <p class="mt-6 max-w-md text-base leading-7 text-white/70">계정을 만들고 파일 / 영상까지 관리하세요 .</p>
                 </div>
                 <div class="relative z-10">
                     <p class="text-xs text-white/45">© 2026 Cloud Service</p>
@@ -368,56 +368,77 @@
                 <div>
                     <p class="mb-1 text-sm font-semibold tracking-wide text-moss">CONVERTER</p>
                     <h1 class="text-3xl font-semibold tracking-tight">동영상 URL 변환</h1>
-                    <p class="mt-1 text-sm text-slate-500">유튜브 및 동영상 링크를 입력하여 임베드 코드로 변환하거나 정보를 확인하세요.</p>
+                    <p class="mt-1 text-sm text-slate-500">실제 동영상 파일을 업로드하여 재생 가능한 URL로 변환하거나, 유튜브 링크를 입력하세요.</p>
                 </div>
 
-                <div class="bg-white rounded-2xl border border-slate-200 p-6 sm:p-8 shadow-soft max-w-2xl space-y-4">
-                    <div>
-                        <label class="block text-sm font-medium text-slate-700 mb-2">동영상 URL 입력</label>
+                <div class="bg-white rounded-2xl border border-slate-200 p-6 sm:p-8 shadow-soft max-w-2xl space-y-6">
+                    <!-- 동영상 파일 업로드 및 URL 변환 -->
+                    <div class="space-y-3">
+                        <label class="block text-sm font-medium text-slate-700">동영상 파일 업로드 (URL 변환)</label>
+                        <input id="video-file-input" type="file" accept="video/*" class="form-input text-sm file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-sm file:font-semibold file:bg-mint file:text-moss hover:file:bg-[#cbe8dc] cursor-pointer">
+                        <p class="text-xs text-slate-400">MP4, WebM 등 동영상 파일을 선택하면 브라우저 내에서 재생 가능한 고유 URL이 생성됩니다.</p>
+                    </div>
+
+                    <div class="border-t border-slate-100 pt-4">
+                        <label class="block text-sm font-medium text-slate-700 mb-2">동영상 URL 입력 (재생)</label>
                         <div class="flex gap-2">
-                            <input id="video-url-input" type="text" class="form-input flex-1" placeholder="https://www.youtube.com/watch?v=...">
-                            <button onclick="convertVideoUrl()" class="primary-button whitespace-nowrap">변환하기</button>
+                            <input id="video-url-input" type="text" class="form-input flex-1" placeholder="동영상 URL 또는 변환된 URL 입력...">
+                            <button onclick="convertVideoUrl()" class="primary-button whitespace-nowrap">재생하기</button>
                         </div>
                     </div>
 
                     <div id="video-result-area" class="hidden pt-4 border-t border-slate-100 space-y-4">
-                        <h3 class="font-semibold text-ink">변환 결과</h3>
+                        <h3 class="font-semibold text-ink">동영상 재생 결과</h3>
                         <div id="video-player-container" class="aspect-video bg-black rounded-xl overflow-hidden flex items-center justify-center"></div>
                         <div>
-                            <label class="block text-xs font-semibold text-slate-500 mb-1">임베드 (HTML) 코드</label>
+                            <label class="block text-xs font-semibold text-slate-500 mb-1">동영상 URL (공유용)</label>
                             <div class="flex gap-2">
                                 <input id="video-embed-code" type="text" class="form-input text-xs font-mono bg-slate-50" readonly>
-                                <button onclick="copyEmbedCode()" class="quiet-button">코드 복사</button>
+                                <button onclick="copyEmbedCode()" class="quiet-button">URL 복사</button>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- TAB 4: 고객센터 (채널톡 스타일 1:1 채팅) -->
+            <!-- TAB 4: 고객센터 (Namu Service / 채널웍스 방식) -->
             <div id="tab-content-support" class="hidden space-y-6">
                 <div>
                     <p class="mb-1 text-sm font-semibold tracking-wide text-moss">CUSTOMER SUPPORT</p>
                     <h1 class="text-3xl font-semibold tracking-tight">고객센터 1:1 문의</h1>
-                    <p class="mt-1 text-sm text-slate-500">궁금하신 점을 남겨주시면 관리자가 실시간으로 확인 후 답변해 드립니다.</p>
+                    <p class="mt-1 text-sm text-slate-500">문의 후 24시간 이내 관리자가 답변 할 예정입니다..</p>
                 </div>
 
-                <div class="bg-white rounded-2xl border border-slate-200 shadow-soft overflow-hidden max-w-3xl flex flex-col h-[550px]">
-                    <div class="bg-moss text-white px-6 py-4 flex items-center justify-between font-semibold">
-                        <span>실시간 고객센터</span>
-                        <span id="support-user-tag" class="text-xs bg-white/20 px-2.5 py-1 rounded-full">접속자: 일반회원</span>
+                <div class="bg-white rounded-2xl border border-slate-200 shadow-soft overflow-hidden max-w-4xl flex flex-col md:flex-row h-[600px]">
+                    <!-- 관리자용 유저 선택 사이드바 (관리자일 때만 표시) -->
+                    <div id="admin-chat-sidebar" class="hidden w-full md:w-72 border-r border-slate-200 bg-slate-50 flex flex-col">
+                        <div class="p-4 border-b border-slate-200 bg-white font-semibold text-sm text-ink">
+                            문의 고객 목록 (채널웍스)
+                        </div>
+                        <div id="chat-user-list" class="flex-1 overflow-y-auto divide-y divide-slate-100"></div>
                     </div>
-                    <div id="support-chat-body" class="flex-1 p-6 overflow-y-auto bg-slate-50 space-y-4 text-sm">
-                        <div class="flex items-start gap-3">
-                            <div class="w-8 h-8 rounded-full bg-moss text-white flex items-center justify-center font-bold text-xs shrink-0">상담</div>
-                            <div class="bg-white p-4 rounded-2xl shadow-sm border border-slate-100 max-w-[80%] text-ink leading-relaxed">
-                                안녕하세요! 고객센터입니다. 무엇을 도와드릴까요? 문의 내용을 남겨주시면 확인 후 답변드리겠습니다.
+
+                    <!-- 채팅 영역 -->
+                    <div class="flex-1 flex flex-col h-full">
+                        <div class="bg-moss text-white px-6 py-4 flex items-center justify-between font-semibold">
+                            <div class="flex items-center gap-2">
+                                <span class="w-2.5 h-2.5 rounded-full bg-emerald-300 animate-pulse"></span>
+                                <span id="support-room-title">Namu Service 실시간 상담</span>
+                            </div>
+                            <span id="support-user-tag" class="text-xs bg-white/20 px-2.5 py-1 rounded-full">상태: 일반 사용자</span>
+                        </div>
+                        <div id="support-chat-body" class="flex-1 p-6 overflow-y-auto bg-slate-50 space-y-4 text-sm">
+                            <div class="flex items-start gap-3">
+                                <div class="w-8 h-8 rounded-full bg-moss text-white flex items-center justify-center font-bold text-xs shrink-0">안내</div>
+                                <div class="bg-white p-4 rounded-2xl shadow-sm border border-slate-100 max-w-[80%] text-ink leading-relaxed">
+                                    상담은 Namu Service, 업무는 채널웍스에서 시작하세요. 문의하실 내용을 남겨주세요!
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="p-4 bg-white border-t border-slate-200 flex gap-3">
-                        <input id="support-input" type="text" placeholder="메시지를 입력하세요..." class="form-input flex-1" onkeypress="if(event.key === 'Enter') sendSupportMessage()">
-                        <button onclick="sendSupportMessage()" class="primary-button px-6">전송</button>
+                        <div class="p-4 bg-white border-t border-slate-200 flex gap-3">
+                            <input id="support-input" type="text" placeholder="메시지를 입력하세요..." class="form-input flex-1" onkeypress="if(event.key === 'Enter') sendSupportMessage()">
+                            <button onclick="sendSupportMessage()" class="primary-button px-6">전송</button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -428,9 +449,12 @@
                     <div>
                         <p class="mb-1 text-sm font-semibold tracking-wide text-rose-600">ADMINISTRATOR ONLY</p>
                         <h1 class="text-3xl font-semibold tracking-tight">데이터베이스 관리</h1>
-                        <p class="mt-1 text-sm text-slate-500">모든 회원 정보, 업로드 파일, 고객센터 문의 내역을 확인 및 관리합니다.</p>
+                        <p class="mt-1 text-sm text-slate-500">회원 정보 추가/수정/삭제, 관리자 권한 부여, 파일 및 공지사항 전체 관리.</p>
                     </div>
-                    <button onclick="loadDatabaseData()" class="quiet-button">새로고침</button>
+                    <div class="flex gap-2">
+                        <button onclick="openAddUserModal()" class="primary-button text-xs">+ 유저 추가</button>
+                        <button onclick="loadDatabaseData()" class="quiet-button">새로고침</button>
+                    </div>
                 </div>
 
                 <!-- 유저 목록 관리 -->
@@ -442,7 +466,7 @@
                                 <tr>
                                     <th class="p-3">이름</th>
                                     <th class="p-3">이메일</th>
-                                    <th class="p-3">가입 권한</th>
+                                    <th class="p-3">권한</th>
                                     <th class="p-3 text-right">관리 작업</th>
                                 </tr>
                             </thead>
@@ -525,6 +549,33 @@
         </form>
     </dialog>
 
+    <!-- USER EDIT/ADD MODAL (데이터베이스 관리용) -->
+    <dialog id="user-modal" class="rounded-2xl p-6 shadow-2xl backdrop:bg-slate-900/40 w-full max-w-md">
+        <form id="user-modal-form" method="dialog" class="space-y-4">
+            <h2 id="user-modal-title" class="text-xl font-semibold text-ink">유저 정보 관리</h2>
+            <input type="hidden" id="modal-user-original-email">
+            <div>
+                <label class="block text-sm font-medium text-slate-700 mb-1">이름</label>
+                <input id="modal-user-name" type="text" class="form-input" required>
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-slate-700 mb-1">이메일</label>
+                <input id="modal-user-email" type="email" class="form-input" required>
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-slate-700 mb-1">권한 설정</label>
+                <select id="modal-user-role" class="form-input">
+                    <option value="user">일반회원</option>
+                    <option value="admin">관리자</option>
+                </select>
+            </div>
+            <div class="flex justify-end gap-3 pt-2">
+                <button type="button" onclick="document.getElementById('user-modal').close()" class="quiet-button">취소</button>
+                <button type="submit" class="primary-button">저장</button>
+            </div>
+        </form>
+    </dialog>
+
     <!-- APPLICATION SCRIPT -->
     <script>
         const ADMIN_EMAIL = 'jokee0302@gmail.com';
@@ -589,9 +640,10 @@
         ];
 
         let editingFileId = null;
+        let selectedChatUserEmail = null; // 관리자가 선택한 채팅 유저 이메일
 
         function isAdmin() {
-            return currentUser && currentUser.email === ADMIN_EMAIL;
+            return currentUser && (currentUser.email === ADMIN_EMAIL || currentUser.role === 'admin');
         }
 
         function navigate() {
@@ -628,7 +680,7 @@
 
                 renderDashboard();
                 renderNotices();
-                renderSupportChat();
+                initSupportChatView();
 
                 if (hash === '#files') switchTab('files', false);
                 else if (hash === '#video') switchTab('video', false);
@@ -667,6 +719,8 @@
 
             if (tabName === 'db' && isAdmin()) {
                 loadDatabaseData();
+            } else if (tabName === 'support') {
+                initSupportChatView();
             }
         }
 
@@ -763,6 +817,18 @@
             renderNotices();
         }
 
+        // 동영상 파일 업로드 및 URL 변환기
+        const videoFileInput = document.getElementById('video-file-input');
+        if (videoFileInput) {
+            videoFileInput.addEventListener('change', (e) => {
+                const file = e.target.files[0];
+                if (!file) return;
+                const objectUrl = URL.createObjectURL(file);
+                document.getElementById('video-url-input').value = objectUrl;
+                convertVideoUrl();
+            });
+        }
+
         function convertVideoUrl() {
             const url = document.getElementById('video-url-input').value.trim();
             const resultArea = document.getElementById('video-result-area');
@@ -770,11 +836,13 @@
             const embedInput = document.getElementById('video-embed-code');
 
             if (!url) {
-                alert('동영상 URL을 입력해주세요.');
+                alert('동영상 URL 또는 파일을 선택해주세요.');
                 return;
             }
 
-            let embedUrl = '';
+            resultArea.classList.remove('hidden');
+            embedInput.value = url;
+
             if (url.includes('youtube.com') || url.includes('youtu.be')) {
                 let videoId = '';
                 if (url.includes('youtu.be/')) {
@@ -783,43 +851,117 @@
                     videoId = url.split('watch?v=')[1].split('&')[0];
                 }
                 if (videoId) {
-                    embedUrl = `https://www.youtube.com/embed/${videoId}`;
+                    const embedUrl = `https://www.youtube.com/embed/${videoId}`;
+                    playerContainer.innerHTML = `<iframe src="${embedUrl}" class="w-full h-full" frameborder="0" allowfullscreen></iframe>`;
+                    return;
                 }
             }
 
-            if (embedUrl) {
-                resultArea.classList.remove('hidden');
-                playerContainer.innerHTML = `<iframe src="${embedUrl}" class="w-full h-full" frameborder="0" allowfullscreen></iframe>`;
-                embedInput.value = `<iframe width="560" height="315" src="${embedUrl}" frameborder="0" allowfullscreen></iframe>`;
-            } else {
-                resultArea.classList.remove('hidden');
-                playerContainer.innerHTML = `<div class="text-white text-sm p-4 text-center">직접 임베드할 수 없는 링크이거나 지원하지 않는 형식입니다.<br><a href="${url}" target="_blank" class="underline text-[#a6d8c2]">새 창에서 링크 열기</a></div>`;
-                embedInput.value = url;
-            }
+            // Blob URL 또는 일반 동영상 URL 재생
+            playerContainer.innerHTML = `<video src="${url}" controls class="w-full h-full object-contain"></video>`;
         }
 
         function copyEmbedCode() {
             const input = document.getElementById('video-embed-code');
             input.select();
             navigator.clipboard.writeText(input.value);
-            alert('임베드 코드가 복사되었습니다!');
+            alert('동영상 URL이 복사되었습니다!');
         }
 
-        function renderSupportChat() {
-            const chatBody = document.getElementById('support-chat-body');
+        // 고객센터 (Namu Service / 채널웍스 방식)
+        function initSupportChatView() {
+            const sidebar = document.getElementById('admin-chat-sidebar');
             const userTag = document.getElementById('support-user-tag');
-            userTag.textContent = isAdmin() ? '접속자: 관리자 (답변 가능)' : `접속자: ${currentUser.name}`;
+
+            if (isAdmin()) {
+                sidebar.classList.remove('hidden');
+                userTag.textContent = '상태: 관리자';
+                renderAdminChatUserList();
+            } else {
+                sidebar.classList.add('hidden');
+                userTag.textContent = `상태: 일반 사용자`;
+                selectedChatUserEmail = currentUser.email;
+                renderSupportChatMessages();
+            }
+        }
+
+        function renderAdminChatUserList() {
+            const chatUserListEl = document.getElementById('chat-user-list');
+            chatUserListEl.innerHTML = '';
+
+            // 채팅을 남긴 유저들 추출
+            const activeSenders = {};
+            chatMessages.forEach(m => {
+                if (m.email !== ADMIN_EMAIL) {
+                    activeSenders[m.email] = m.sender;
+                }
+            });
+
+            const sendersArr = Object.keys(activeSenders);
+            if (sendersArr.length === 0) {
+                chatUserListEl.innerHTML = `<div class="p-4 text-xs text-slate-400 text-center">문의한 유저가 없습니다.</div>`;
+                return;
+            }
+
+            if (!selectedChatUserEmail && sendersArr.length > 0) {
+                selectedChatUserEmail = sendersArr[0];
+            }
+
+            sendersArr.forEach(email => {
+                const name = activeSenders[email];
+                const isSelected = selectedChatUserEmail === email;
+                const div = document.createElement('div');
+                div.className = `p-3.5 cursor-pointer text-sm transition-colors ${isSelected ? 'bg-mint font-semibold text-moss border-l-4 border-moss' : 'hover:bg-slate-100 text-ink'}`;
+                div.innerHTML = `
+                    <div class="flex justify-between items-center">
+                        <span>${name}</span>
+                        <span class="text-[10px] text-slate-400">1:1 상담</span>
+                    </div>
+                    <div class="text-xs text-slate-500 truncate mt-0.5">${email}</div>
+                `;
+                div.onclick = () => {
+                    selectedChatUserEmail = email;
+                    renderAdminChatUserList();
+                    renderSupportChatMessages();
+                };
+                chatUserListEl.appendChild(div);
+            });
+
+            renderSupportChatMessages();
+        }
+
+        function renderSupportChatMessages() {
+            const chatBody = document.getElementById('support-chat-body');
+            const roomTitle = document.getElementById('support-room-title');
+
+            let targetEmail = isAdmin() ? selectedChatUserEmail : currentUser.email;
+            if (isAdmin()) {
+                const foundUser = registeredUsers.find(u => u.email === targetEmail);
+                roomTitle.textContent = foundUser ? `${foundUser.name} (${targetEmail}) 님과의 상담` : 'Namu Service 상담실';
+            } else {
+                roomTitle.textContent = 'Namu Service 실시간 상담';
+            }
 
             let html = `
                 <div class="flex items-start gap-3">
-                    <div class="w-8 h-8 rounded-full bg-moss text-white flex items-center justify-center font-bold text-xs shrink-0">상담</div>
+                    <div class="w-8 h-8 rounded-full bg-moss text-white flex items-center justify-center font-bold text-xs shrink-0">안내</div>
                     <div class="bg-white p-4 rounded-2xl shadow-sm border border-slate-100 max-w-[80%] text-ink leading-relaxed">
-                        안녕하세요! 고객센터입니다. 무엇을 도와드릴까요?
+                        무엇을 도와드릴까요?
                     </div>
                 </div>
             `;
 
-            chatMessages.forEach(m => {
+            const filtered = chatMessages.filter(m => m.email === targetEmail || (m.email === ADMIN_EMAIL && isAdmin())); 
+            // 만약 관리자일 경우 해당 유저와 주고받은 메시지만 필터링
+            const userMessages = chatMessages.filter(m => {
+                if (isAdmin()) {
+                    return m.email === targetEmail || (m.email === ADMIN_EMAIL && m.targetUser === targetEmail);
+                } else {
+                    return m.email === currentUser.email || m.email === ADMIN_EMAIL;
+                }
+            });
+
+            userMessages.forEach(m => {
                 const isMe = m.email === currentUser.email;
                 if (isMe) {
                     html += `
@@ -852,10 +994,17 @@
             const text = input.value.trim();
             if (!text) return;
 
+            let targetUserEmail = isAdmin() ? selectedChatUserEmail : currentUser.email;
+            if (isAdmin() && !targetUserEmail) {
+                alert('상담할 유저를 선택해주세요.');
+                return;
+            }
+
             const msg = {
                 id: 'msg_' + Date.now(),
                 sender: currentUser.name,
                 email: currentUser.email,
+                targetUser: targetUserEmail,
                 text,
                 time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
             };
@@ -863,24 +1012,29 @@
             chatMessages.push(msg);
             localStorage.setItem('cloud_chats', JSON.stringify(chatMessages));
             input.value = '';
-            renderSupportChat();
 
-            if (!isAdmin()) {
+            if (isAdmin()) {
+                renderSupportChatMessages();
+            } else {
+                renderSupportChatMessages();
+                // 일반 유저가 보냈을 때 자동 응답 안내
                 setTimeout(() => {
                     const reply = {
                         id: 'msg_reply_' + Date.now(),
                         sender: '고객센터 담당자',
                         email: ADMIN_EMAIL,
-                        text: `[자동접수] ${currentUser.name}님의 문의가 정상적으로 접수되었습니다. 확인 후 답변드리겠습니다!`,
+                        targetUser: currentUser.email,
+                        text: `[Namu Service 자동접수] 문의가 정상적으로 접수되었습니다. 담당자(채널웍스)가 확인 후 답변드리겠습니다.`,
                         time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
                     };
                     chatMessages.push(reply);
                     localStorage.setItem('cloud_chats', JSON.stringify(chatMessages));
-                    renderSupportChat();
-                }, 600);
+                    renderSupportChatMessages();
+                }, 500);
             }
         }
 
+        // 데이터베이스 관리 (모든 데이터 수정/추가/삭제/권한설정)
         function loadDatabaseData() {
             if (!isAdmin()) return;
 
@@ -894,10 +1048,10 @@
                 tr.innerHTML = `
                     <td class="p-3 font-medium text-ink">${u.name}</td>
                     <td class="p-3 text-slate-500">${u.email}</td>
-                    <td class="p-3"><span class="px-2 py-1 rounded text-xs font-semibold ${u.email === ADMIN_EMAIL ? 'bg-rose-100 text-rose-700' : 'bg-mint text-moss'}">${u.email === ADMIN_EMAIL ? '관리자' : '일반회원'}</span></td>
+                    <td class="p-3"><span class="px-2 py-1 rounded text-xs font-semibold ${u.role === 'admin' ? 'bg-rose-100 text-rose-700' : 'bg-mint text-moss'}">${u.role === 'admin' ? '관리자' : '일반회원'}</span></td>
                     <td class="p-3 text-right space-x-2">
-                        <button onclick="editUser('${u.email}')" class="quiet-button">수정</button>
-                        ${u.email !== ADMIN_EMAIL ? `<button onclick="deleteUser('${u.email}')" class="quiet-button text-rose-600 hover:bg-rose-50">삭제</button>` : ''}
+                        <button onclick="openEditUserModal('${u.email}')" class="quiet-button">수정</button>
+                        <button onclick="deleteUser('${u.email}')" class="quiet-button text-rose-600 hover:bg-rose-50">삭제</button>
                     </td>
                 `;
                 userTable.appendChild(tr);
@@ -925,20 +1079,62 @@
             });
         }
 
-        function deleteUser(email) {
-            if (confirm(`정말 ${email} 유저를 삭제하시겠습니까?`)) {
-                registeredUsers = registeredUsers.filter(u => u.email !== email);
-                localStorage.setItem('cloud_reg_users', JSON.stringify(registeredUsers));
-                loadDatabaseData();
-            }
+        function openAddUserModal() {
+            document.getElementById('user-modal-title').textContent = '새 유저 추가';
+            document.getElementById('modal-user-original-email').value = '';
+            document.getElementById('modal-user-name').value = '';
+            document.getElementById('modal-user-email').value = '';
+            document.getElementById('modal-user-role').value = 'user';
+            document.getElementById('user-modal').showModal();
         }
 
-        function editUser(email) {
+        function openEditUserModal(email) {
             const u = registeredUsers.find(item => item.email === email);
             if (!u) return;
-            const newName = prompt('새로운 이름을 입력하세요:', u.name);
-            if (newName) {
-                u.name = newName;
+            document.getElementById('user-modal-title').textContent = '유저 정보 및 권한 수정';
+            document.getElementById('modal-user-original-email').value = u.email;
+            document.getElementById('modal-user-name').value = u.name;
+            document.getElementById('modal-user-email').value = u.email;
+            document.getElementById('modal-user-role').value = u.role || 'user';
+            document.getElementById('user-modal').showModal();
+        }
+
+        document.getElementById('user-modal-form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const origEmail = document.getElementById('modal-user-original-email').value;
+            const name = document.getElementById('modal-user-name').value;
+            const email = document.getElementById('modal-user-email').value;
+            const role = document.getElementById('modal-user-role').value;
+
+            if (origEmail) {
+                // 수정
+                const u = registeredUsers.find(item => item.email === origEmail);
+                if (u) {
+                    u.name = name;
+                    u.email = email;
+                    u.role = role;
+                }
+            } else {
+                // 추가
+                if (registeredUsers.some(item => item.email === email)) {
+                    alert('이미 존재하는 이메일입니다.');
+                    return;
+                }
+                registeredUsers.push({ name, email, role });
+            }
+
+            localStorage.setItem('cloud_reg_users', JSON.stringify(registeredUsers));
+            document.getElementById('user-modal').close();
+            loadDatabaseData();
+        });
+
+        function deleteUser(email) {
+            if (email === ADMIN_EMAIL) {
+                alert('최고 관리자는 삭제할 수 없습니다.');
+                return;
+            }
+            if (confirm(`정말 ${email} 유저를 삭제하시겠습니까?`)) {
+                registeredUsers = registeredUsers.filter(u => u.email !== email);
                 localStorage.setItem('cloud_reg_users', JSON.stringify(registeredUsers));
                 loadDatabaseData();
             }

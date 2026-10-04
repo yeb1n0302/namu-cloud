@@ -3,17 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title id="page-title">Namu Cloud — 내 파일 보관함 & 공유</title>
+    <title id="page-title">Cloud Service — 통합 클라우드 & 서비스</title>
 
-    <!-- 디스코드 / SNS 오픈 그래프 설정 -->
     <meta property="og:type" content="website">
-    <meta property="og:site_name" content="Namu Cloud">
-    <meta property="og:title" id="og-title-tag" content="Namu Cloud">
-    <meta property="og:description" content="파일을 안전하게 보관하고, 필요한 사람과 링크 하나로 간편하게 나누세요.">
-    <meta property="og:image" content="https://media.discordapp.net/attachments/1406081457893675010/1555952247664418897/e91eda9b-d970-477e-9add-25dfa046730a.png?backend=b2&amp;ex=6ac264f4&amp;is=6ac11374&amp;hm=b8909b4dc350f535f8cae38c95c90788f89f36d87c442eee9ae57c7da3dc834d&amp;=&amp;format=webp&amp;quality=lossless&amp;width=768&amp;height=768">
-    <meta property="og:image:type" content="image/png">
+    <meta property="og:site_name" content="Cloud Service">
+    <meta property="og:title" id="og-title-tag" content="Cloud Service">
+    <meta property="og:description" content="파일 보관, 공지사항, 동영상 URL 변환, 1:1 고객센터 및 관리자 데이터베이스 통합 시스템.">
     <meta name="theme-color" content="#237761">
-    <meta name="twitter:card" content="summary_large_image">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -107,6 +103,22 @@
         .form-input:focus {
             border-color: #237761;
         }
+        .nav-tab {
+            padding: 0.5rem 1rem;
+            font-weight: 600;
+            font-size: 0.875rem;
+            color: #64748b;
+            border-bottom: 2px solid transparent;
+            transition: all 0.2s;
+            cursor: pointer;
+        }
+        .nav-tab.active {
+            color: #237761;
+            border-bottom-color: #237761;
+        }
+        .nav-tab:hover {
+            color: #172b31;
+        }
     </style>
 </head>
 <body class="min-h-screen bg-paper font-sans text-ink antialiased">
@@ -124,42 +136,26 @@
                         <rect x="17" y="7" width="4" height="10" rx="2" />
                     </svg>
                     <span class="flex flex-col leading-tight">
-                        <span>Namu Cloud</span>
-                        <span class="mt-0.5 text-[9px] font-medium tracking-normal text-white/55">Made by 파엠학개론 ( y.ed1 )</span>
+                        <span>Cloud Service</span>
+                        <span class="mt-0.5 text-[9px] font-medium tracking-normal text-white/55">Integrated Cloud Platform</span>
                     </span>
                 </a>
                 <div class="relative z-10 max-w-xl pb-12">
                     <p class="mb-6 text-sm font-semibold uppercase tracking-[0.22em] text-[#a6d8c2]">A LITTLE MORE ROOM</p>
                     <h1 class="text-5xl font-semibold leading-[1.12] tracking-[-0.045em] xl:text-6xl">나만의 공간을<br>지금 시작하세요.</h1>
-                    <p class="mt-6 max-w-md text-base leading-7 text-white/70">계정을 만들고 파일을 업로드하면, 어디서든 안전하게 다시 찾을 수 있습니다.</p>
-                    <div class="mt-12 flex items-center gap-3 text-sm text-white/60">
-                        <span class="h-px w-10 bg-[#a6d8c2]/60"></span>
-                        Built for the files that matter.
-                    </div>
+                    <p class="mt-6 max-w-md text-base leading-7 text-white/70">계정을 만들고 파일, 공지, 고객센터까지 한곳에서 관리하세요.</p>
                 </div>
                 <div class="relative z-10">
-                    <p class="text-xs text-white/45">© 2026 Namu Cloud</p>
-                    <p class="mt-0.5 text-[9px] text-white/35">Made by 파엠학개론 ( y.ed1 )</p>
+                    <p class="text-xs text-white/45">© 2026 Cloud Service</p>
                 </div>
             </section>
 
             <section class="flex min-h-screen items-center justify-center px-5 py-12 sm:px-10">
                 <div class="w-full max-w-md">
-                    <a href="#register" class="mb-10 inline-flex items-center gap-3 text-lg font-semibold tracking-tight lg:hidden">
-                        <svg class="h-7 w-7 text-moss" viewBox="0 0 24 24" fill="currentColor">
-                            <rect x="3" y="5" width="4" height="14" rx="2" />
-                            <rect x="10" y="2" width="4" height="20" rx="2" />
-                            <rect x="17" y="7" width="4" height="10" rx="2" />
-                        </svg>
-                        <span class="flex flex-col leading-tight">
-                            <span>Namu Cloud</span>
-                            <span class="mt-0.5 text-[9px] font-medium tracking-normal text-slate-400">Made by 파엠학개론 ( y.ed1 )</span>
-                        </span>
-                    </a>
                     <div class="mb-8">
                         <p class="mb-3 text-sm font-semibold tracking-wide text-moss">새로운 시작</p>
                         <h2 class="text-3xl font-semibold tracking-[-0.04em]">계정 만들기</h2>
-                        <p class="mt-2 text-sm leading-6 text-slate-500">필요한 정보만 입력하면 바로 시작할 수 있어요.</p>
+                        <p class="mt-2 text-sm leading-6 text-slate-500">정보를 입력하면 바로 시작할 수 있어요.</p>
                     </div>
                     <form id="register-form" class="space-y-4">
                         <div>
@@ -180,7 +176,6 @@
                     <p class="mt-6 text-center text-sm text-slate-500">이미 계정이 있나요? 
                         <a href="#login" class="font-semibold text-moss hover:text-[#185c4b]">로그인</a>
                     </p>
-                    <p class="mt-9 text-center text-xs leading-5 text-slate-400">Netlify 호스팅을 사용하였습니다.</p>
                 </div>
             </section>
         </main>
@@ -191,7 +186,6 @@
         <main class="grid min-h-screen lg:grid-cols-[1.02fr_0.98fr]">
             <section class="relative hidden overflow-hidden bg-moss-dark p-12 text-white lg:flex lg:flex-col lg:justify-between xl:p-16">
                 <div class="absolute -right-28 top-20 h-80 w-80 rounded-full border border-white/10"></div>
-                <div class="absolute -right-12 top-36 h-48 w-48 rounded-full border border-white/10"></div>
                 <a href="#login" class="relative z-10 inline-flex w-fit items-center gap-3 text-lg font-semibold tracking-tight">
                     <svg class="h-7 w-7 text-[#a6d8c2]" viewBox="0 0 24 24" fill="currentColor">
                         <rect x="3" y="5" width="4" height="14" rx="2" />
@@ -199,22 +193,16 @@
                         <rect x="17" y="7" width="4" height="10" rx="2" />
                     </svg>
                     <span class="flex flex-col leading-tight">
-                        <span>Namu Cloud</span>
-                        <span class="mt-0.5 text-[9px] font-medium tracking-normal text-white/55">Made by 파엠학개론 ( y.ed1 )</span>
+                        <span>Cloud Service</span>
+                        <span class="mt-0.5 text-[9px] font-medium tracking-normal text-white/55">Integrated Cloud Platform</span>
                     </span>
                 </a>
                 <div class="relative z-10 max-w-xl pb-12">
                     <p class="mb-6 text-sm font-semibold uppercase tracking-[0.22em] text-[#a6d8c2]">YOUR FILES, YOUR SPACE</p>
-                    <h1 class="text-5xl font-semibold leading-[1.12] tracking-[-0.045em] xl:text-6xl">내 파일을<br>내 방식대로.</h1>
-                    <p class="mt-6 max-w-md text-base leading-7 text-white/70">파일을 안전하게 보관하고, 필요한 사람과 링크 하나로 나누세요.</p>
-                    <div class="mt-12 flex items-center gap-3 text-sm text-white/60">
-                        <span class="h-px w-10 bg-[#a6d8c2]/60"></span>
-                        Private storage. Simple sharing.
-                    </div>
+                    <h1 class="text-5xl font-semibold leading-[1.12] tracking-[-0.045em] xl:text-6xl">통합 클라우드<br>시스템.</h1>
                 </div>
                 <div class="relative z-10">
-                    <p class="text-xs text-white/45">© 2026 Namu Cloud</p>
-                    <p class="mt-0.5 text-[9px] text-white/35">Made by 파엠학개론 ( y.ed1 )</p>
+                    <p class="text-xs text-white/45">© 2026 Cloud Service</p>
                 </div>
             </section>
 
@@ -223,7 +211,7 @@
                     <div class="mb-9">
                         <p class="mb-3 text-sm font-semibold tracking-wide text-moss">다시 만나 반가워요</p>
                         <h2 class="text-3xl font-semibold tracking-[-0.04em]">로그인</h2>
-                        <p class="mt-2 text-sm leading-6 text-slate-500">저장한 파일을 확인하고 이어서 관리하세요.</p>
+                        <p class="mt-2 text-sm leading-6 text-slate-500">계정에 로그인하세요. (관리자: jokee0302@gmail.com)</p>
                     </div>
                     <form id="login-form" class="space-y-5">
                         <div>
@@ -239,15 +227,14 @@
                     <p class="mt-7 text-center text-sm text-slate-500">아직 계정이 없나요? 
                         <a href="#register" class="font-semibold text-moss hover:text-[#185c4b]">회원가입</a>
                     </p>
-                    <p class="mt-10 text-center text-xs text-slate-400">Netlify 호스팅을 사용하였습니다.</p>
                 </div>
             </section>
         </main>
     </div>
 
-    <!-- 3. DASHBOARD VIEW (대시보드) -->
+    <!-- 3. MAIN APP VIEW (탭 내비게이션 포함 대시보드) -->
     <div id="view-dashboard" class="hidden">
-        <header class="border-b border-slate-200/80 bg-white/80 backdrop-blur">
+        <header class="border-b border-slate-200/80 bg-white/80 backdrop-blur sticky top-0 z-50">
             <div class="mx-auto flex max-w-7xl items-center justify-between px-5 py-4 sm:px-8">
                 <a href="#dashboard" class="inline-flex items-center gap-3 text-lg font-semibold tracking-tight">
                     <svg class="h-7 w-7 text-moss" viewBox="0 0 24 24" fill="currentColor">
@@ -256,10 +243,20 @@
                         <rect x="17" y="7" width="4" height="10" rx="2" />
                     </svg>
                     <span class="flex flex-col leading-tight">
-                        <span>Namu Cloud</span>
-                        <span class="mt-0.5 text-[9px] font-medium tracking-normal text-slate-400">Made by 파엠학개론 ( y.ed1 )</span>
+                        <span>Cloud Service</span>
+                        <span class="mt-0.5 text-[9px] font-medium tracking-normal text-slate-400">Integrated Cloud Platform</span>
                     </span>
                 </a>
+
+                <!-- 상단 탭 메뉴 -->
+                <nav class="hidden md:flex items-center gap-2">
+                    <button class="nav-tab active" onclick="switchTab('notice')">공지사항</button>
+                    <button class="nav-tab" onclick="switchTab('files')">파일공유</button>
+                    <button class="nav-tab" onclick="switchTab('video')">동영상 URL 변환</button>
+                    <button class="nav-tab" onclick="switchTab('support')">고객센터</button>
+                    <button id="tab-db" class="nav-tab hidden text-rose-600 font-bold" onclick="switchTab('db')">데이터베이스</button>
+                </nav>
+
                 <div class="flex items-center gap-3 sm:gap-5">
                     <div class="hidden text-right sm:block">
                         <p id="dash-user-name" class="text-sm font-semibold text-ink">사용자</p>
@@ -269,81 +266,210 @@
                     <button id="logout-btn" class="quiet-button">로그아웃</button>
                 </div>
             </div>
+            <!-- 모바일용 탭 -->
+            <div class="flex md:hidden overflow-x-auto border-t border-slate-100 px-4 py-2 gap-2 bg-white">
+                <button class="nav-tab active text-xs whitespace-nowrap" onclick="switchTab('notice')">공지사항</button>
+                <button class="nav-tab text-xs whitespace-nowrap" onclick="switchTab('files')">파일공유</button>
+                <button class="nav-tab text-xs whitespace-nowrap" onclick="switchTab('video')">동영상 변환</button>
+                <button class="nav-tab text-xs whitespace-nowrap" onclick="switchTab('support')">고객센터</button>
+                <button id="tab-db-m" class="nav-tab text-xs whitespace-nowrap hidden text-rose-600 font-bold" onclick="switchTab('db')">데이터베이스</button>
+            </div>
         </header>
 
         <main class="mx-auto max-w-7xl px-5 pb-16 pt-10 sm:px-8 sm:pt-14">
-            <section class="mb-9 flex flex-col justify-between gap-5 md:flex-row md:items-end">
-                <div>
-                    <p class="mb-2 text-sm font-semibold tracking-wide text-moss">내 파일</p>
-                    <h1 class="text-3xl font-semibold tracking-[-0.045em] sm:text-4xl">안녕하세요, <span id="dash-welcome-name">사용자</span>님</h1>
-                    <p class="mt-2 text-sm text-slate-500">파일을 한곳에 모으고, 필요한 순간에 꺼내 쓰세요.</p>
-                </div>
-                <div class="flex gap-3">
-                    <div class="stat-chip">
-                        <span class="stat-label">파일</span>
-                        <strong id="dash-file-count">0</strong>
-                    </div>
-                    <div class="stat-chip">
-                        <span class="stat-label">사용 중</span>
-                        <strong id="dash-storage-used">0 MB</strong>
-                    </div>
-                </div>
-            </section>
 
-            <!-- Drop Zone -->
-            <section id="drop-zone" class="drop-zone mb-10 text-center">
-                <input id="file-input" type="file" multiple class="hidden">
-                <div class="mx-auto max-w-xl">
-                    <div class="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-mint text-moss">
-                        <svg class="h-7 w-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 16V4m0 0L7.5 8.5M12 4l4.5 4.5M4.5 15.5v2A2.5 2.5 0 0 0 7 20h10a2.5 2.5 0 0 0 2.5-2.5v-2" />
-                        </svg>
-                    </div>
-                    <h2 class="text-lg font-semibold tracking-tight">파일을 여기에 놓으세요</h2>
-                    <p class="mt-2 text-sm text-slate-500">또는 기기에서 파일을 선택해 업로드하세요.</p>
-                    <button id="choose-files" type="button" class="primary-button mt-5">파일 선택</button>
-                    
-                    <!-- 실시간 바이트 기반 진행률 표시 박스 -->
-                    <div id="upload-status-box" class="mt-5 hidden rounded-xl bg-mint/90 border border-moss/30 p-4 text-sm font-medium text-moss shadow-sm">
-                        <div class="flex items-center justify-center gap-3 mb-2">
-                            <svg class="h-5 w-5 animate-spin text-moss" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                                <circle cx="12" cy="12" r="10" stroke-width="4" class="opacity-20"></circle>
-                                <path fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" class="opacity-80"></path>
-                            </svg>
-                            <span id="upload-status-text">저장하는 중 ( 진행상황 : 0% )</span>
-                        </div>
-                        <div class="w-full bg-slate-200 h-2 rounded-full overflow-hidden">
-                            <div id="upload-progress-bar" class="bg-moss h-full transition-all duration-75" style="width: 0%;"></div>
-                        </div>
-                    </div>
-
-                    <p id="upload-guide-text" class="mt-4 text-xs text-slate-400">여러 파일을 선택해 업로드하면 실시간 네트워크 전송 후 짧은 공유 링크가 배정됩니다.</p>
-                </div>
-            </section>
-
-            <!-- File List Table -->
-            <section>
-                <div class="mb-4 flex flex-col justify-between gap-3 sm:flex-row sm:items-center">
+            <!-- TAB 1: 공지사항 -->
+            <div id="tab-content-notice" class="space-y-6">
+                <div class="flex flex-col justify-between gap-4 sm:flex-row sm:items-center">
                     <div>
-                        <h2 class="text-xl font-semibold tracking-tight">모든 파일</h2>
-                        <p class="mt-1 text-sm text-slate-500">내가 업로드한 파일을 관리하고 공유할 수 있습니다.</p>
+                        <p class="mb-1 text-sm font-semibold tracking-wide text-moss">NOTICE</p>
+                        <h1 class="text-3xl font-semibold tracking-tight">공지사항</h1>
+                        <p class="mt-1 text-sm text-slate-500">통합 클라우드 서비스의 주요 소식과 안내를 확인하세요.</p>
                     </div>
-                    <div class="relative">
-                        <input id="file-search" type="search" placeholder="Q 파일 검색" autocomplete="off" class="w-full rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm focus:border-moss focus:outline-none sm:w-64">
+                    <button id="btn-write-notice" class="primary-button hidden" onclick="openNoticeModal()">+ 공지 등록</button>
+                </div>
+                <div id="notice-list" class="space-y-4"></div>
+            </div>
+
+            <!-- TAB 2: 파일공유 -->
+            <div id="tab-content-files" class="hidden space-y-8">
+                <section class="flex flex-col justify-between gap-5 md:flex-row md:items-end">
+                    <div>
+                        <p class="mb-2 text-sm font-semibold tracking-wide text-moss">내 파일</p>
+                        <h1 class="text-3xl font-semibold tracking-[-0.045em] sm:text-4xl">안녕하세요, <span id="dash-welcome-name">사용자</span>님</h1>
+                        <p class="mt-2 text-sm text-slate-500">파일을 한곳에 모으고, 필요한 순간에 꺼내 쓰세요.</p>
+                    </div>
+                    <div class="flex gap-3">
+                        <div class="stat-chip">
+                            <span class="stat-label">파일</span>
+                            <strong id="dash-file-count">0</strong>
+                        </div>
+                        <div class="stat-chip">
+                            <span class="stat-label">사용 중</span>
+                            <strong id="dash-storage-used">0 MB</strong>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Drop Zone -->
+                <section id="drop-zone" class="drop-zone mb-10 text-center">
+                    <input id="file-input" type="file" multiple class="hidden">
+                    <div class="mx-auto max-w-xl">
+                        <div class="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-mint text-moss">
+                            <svg class="h-7 w-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 16V4m0 0L7.5 8.5M12 4l4.5 4.5M4.5 15.5v2A2.5 2.5 0 0 0 7 20h10a2.5 2.5 0 0 0 2.5-2.5v-2" />
+                            </svg>
+                        </div>
+                        <h2 class="text-lg font-semibold tracking-tight">파일을 여기에 놓으세요</h2>
+                        <p class="mt-2 text-sm text-slate-500">또는 기기에서 파일을 선택해 업로드하세요.</p>
+                        <button id="choose-files" type="button" class="primary-button mt-5">파일 선택</button>
+                        
+                        <div id="upload-status-box" class="mt-5 hidden rounded-xl bg-mint/90 border border-moss/30 p-4 text-sm font-medium text-moss shadow-sm">
+                            <div class="flex items-center justify-center gap-3 mb-2">
+                                <svg class="h-5 w-5 animate-spin text-moss" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                    <circle cx="12" cy="12" r="10" stroke-width="4" class="opacity-20"></circle>
+                                    <path fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" class="opacity-80"></path>
+                                </svg>
+                                <span id="upload-status-text">저장하는 중 ( 진행상황 : 0% )</span>
+                            </div>
+                            <div class="w-full bg-slate-200 h-2 rounded-full overflow-hidden">
+                                <div id="upload-progress-bar" class="bg-moss h-full transition-all duration-75" style="width: 0%;"></div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- File List Table -->
+                <section>
+                    <div class="mb-4 flex flex-col justify-between gap-3 sm:flex-row sm:items-center">
+                        <div>
+                            <h2 class="text-xl font-semibold tracking-tight">모든 파일</h2>
+                            <p class="mt-1 text-sm text-slate-500">내가 업로드한 파일을 관리하고 공유할 수 있습니다.</p>
+                        </div>
+                        <div class="relative">
+                            <input id="file-search" type="search" placeholder="Q 파일 검색" autocomplete="off" class="w-full rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm focus:border-moss focus:outline-none sm:w-64">
+                        </div>
+                    </div>
+
+                    <div class="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-soft">
+                        <div class="hidden grid-cols-12 border-b border-slate-100 bg-slate-50 px-6 py-3.5 text-xs font-semibold text-slate-500 sm:grid">
+                            <span class="col-span-5">파일 이름</span>
+                            <span class="col-span-2">크기</span>
+                            <span class="col-span-2">업로드 날짜</span>
+                            <span class="col-span-3 text-right">작업</span>
+                        </div>
+                        <div id="file-list" class="divide-y divide-slate-100"></div>
+                    </div>
+                </section>
+            </div>
+
+            <!-- TAB 3: 동영상 URL 변환 -->
+            <div id="tab-content-video" class="hidden space-y-6">
+                <div>
+                    <p class="mb-1 text-sm font-semibold tracking-wide text-moss">CONVERTER</p>
+                    <h1 class="text-3xl font-semibold tracking-tight">동영상 URL 변환</h1>
+                    <p class="mt-1 text-sm text-slate-500">유튜브 및 동영상 링크를 입력하여 임베드 코드로 변환하거나 정보를 확인하세요.</p>
+                </div>
+
+                <div class="bg-white rounded-2xl border border-slate-200 p-6 sm:p-8 shadow-soft max-w-2xl space-y-4">
+                    <div>
+                        <label class="block text-sm font-medium text-slate-700 mb-2">동영상 URL 입력</label>
+                        <div class="flex gap-2">
+                            <input id="video-url-input" type="text" class="form-input flex-1" placeholder="https://www.youtube.com/watch?v=...">
+                            <button onclick="convertVideoUrl()" class="primary-button whitespace-nowrap">변환하기</button>
+                        </div>
+                    </div>
+
+                    <div id="video-result-area" class="hidden pt-4 border-t border-slate-100 space-y-4">
+                        <h3 class="font-semibold text-ink">변환 결과</h3>
+                        <div id="video-player-container" class="aspect-video bg-black rounded-xl overflow-hidden flex items-center justify-center"></div>
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-500 mb-1">임베드 (HTML) 코드</label>
+                            <div class="flex gap-2">
+                                <input id="video-embed-code" type="text" class="form-input text-xs font-mono bg-slate-50" readonly>
+                                <button onclick="copyEmbedCode()" class="quiet-button">코드 복사</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB 4: 고객센터 (채널톡 스타일 1:1 채팅) -->
+            <div id="tab-content-support" class="hidden space-y-6">
+                <div>
+                    <p class="mb-1 text-sm font-semibold tracking-wide text-moss">CUSTOMER SUPPORT</p>
+                    <h1 class="text-3xl font-semibold tracking-tight">고객센터 1:1 문의</h1>
+                    <p class="mt-1 text-sm text-slate-500">궁금하신 점을 남겨주시면 관리자가 실시간으로 확인 후 답변해 드립니다.</p>
+                </div>
+
+                <div class="bg-white rounded-2xl border border-slate-200 shadow-soft overflow-hidden max-w-3xl flex flex-col h-[550px]">
+                    <div class="bg-moss text-white px-6 py-4 flex items-center justify-between font-semibold">
+                        <span>실시간 고객센터</span>
+                        <span id="support-user-tag" class="text-xs bg-white/20 px-2.5 py-1 rounded-full">접속자: 일반회원</span>
+                    </div>
+                    <div id="support-chat-body" class="flex-1 p-6 overflow-y-auto bg-slate-50 space-y-4 text-sm">
+                        <div class="flex items-start gap-3">
+                            <div class="w-8 h-8 rounded-full bg-moss text-white flex items-center justify-center font-bold text-xs shrink-0">상담</div>
+                            <div class="bg-white p-4 rounded-2xl shadow-sm border border-slate-100 max-w-[80%] text-ink leading-relaxed">
+                                안녕하세요! 고객센터입니다. 무엇을 도와드릴까요? 문의 내용을 남겨주시면 확인 후 답변드리겠습니다.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-4 bg-white border-t border-slate-200 flex gap-3">
+                        <input id="support-input" type="text" placeholder="메시지를 입력하세요..." class="form-input flex-1" onkeypress="if(event.key === 'Enter') sendSupportMessage()">
+                        <button onclick="sendSupportMessage()" class="primary-button px-6">전송</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB 5: 관리자 데이터베이스 (관리자 전용) -->
+            <div id="tab-content-db" class="hidden space-y-6">
+                <div class="flex justify-between items-center">
+                    <div>
+                        <p class="mb-1 text-sm font-semibold tracking-wide text-rose-600">ADMINISTRATOR ONLY</p>
+                        <h1 class="text-3xl font-semibold tracking-tight">데이터베이스 관리</h1>
+                        <p class="mt-1 text-sm text-slate-500">모든 회원 정보, 업로드 파일, 고객센터 문의 내역을 확인 및 관리합니다.</p>
+                    </div>
+                    <button onclick="loadDatabaseData()" class="quiet-button">새로고침</button>
+                </div>
+
+                <!-- 유저 목록 관리 -->
+                <div class="bg-white rounded-2xl border border-slate-200 p-6 shadow-soft space-y-4">
+                    <h2 class="text-lg font-semibold text-ink">회원 데이터베이스 (<span id="db-user-count">0</span>명)</h2>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left text-sm">
+                            <thead class="border-b border-slate-100 bg-slate-50 text-xs font-semibold text-slate-500">
+                                <tr>
+                                    <th class="p-3">이름</th>
+                                    <th class="p-3">이메일</th>
+                                    <th class="p-3">가입 권한</th>
+                                    <th class="p-3 text-right">관리 작업</th>
+                                </tr>
+                            </thead>
+                            <tbody id="db-user-table" class="divide-y divide-slate-100"></tbody>
+                        </table>
                     </div>
                 </div>
 
-                <div class="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-soft">
-                    <div class="hidden grid-cols-12 border-b border-slate-100 bg-slate-50 px-6 py-3.5 text-xs font-semibold text-slate-500 sm:grid">
-                        <span class="col-span-5">파일 이름</span>
-                        <span class="col-span-2">크기</span>
-                        <span class="col-span-2">업로드 날짜</span>
-                        <span class="col-span-3 text-right">작업</span>
+                <!-- 전체 파일 관리 -->
+                <div class="bg-white rounded-2xl border border-slate-200 p-6 shadow-soft space-y-4">
+                    <h2 class="text-lg font-semibold text-ink">전체 업로드 파일 데이터베이스</h2>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left text-sm">
+                            <thead class="border-b border-slate-100 bg-slate-50 text-xs font-semibold text-slate-500">
+                                <tr>
+                                    <th class="p-3">파일 이름</th>
+                                    <th class="p-3">크기</th>
+                                    <th class="p-3">다운로드 수</th>
+                                    <th class="p-3 text-right">작업</th>
+                                </tr>
+                            </thead>
+                            <tbody id="db-file-table" class="divide-y divide-slate-100"></tbody>
+                        </table>
                     </div>
-                    <div id="file-list" class="divide-y divide-slate-100"></div>
                 </div>
-            </section>
-            <p class="mt-7 text-center text-xs leading-5 text-slate-400">Netlify 호스팅을 사용하였습니다.</p>
+            </div>
+
         </main>
     </div>
 
@@ -351,73 +477,60 @@
     <div id="view-share" class="hidden">
         <main class="flex min-h-screen items-center justify-center px-5 py-12">
             <div class="w-full max-w-xl">
-                <a href="#login" class="mb-7 inline-flex items-center gap-3 text-lg font-semibold tracking-tight">
-                    <svg class="h-7 w-7 text-moss" viewBox="0 0 24 24" fill="currentColor">
-                        <rect x="3" y="5" width="4" height="14" rx="2" />
-                        <rect x="10" y="2" width="4" height="20" rx="2" />
-                        <rect x="17" y="7" width="4" height="10" rx="2" />
-                    </svg>
-                    <span class="flex flex-col leading-tight">
-                        <span>Namu Cloud</span>
-                        <span class="mt-0.5 text-[9px] font-medium tracking-normal text-slate-400">Made by 파엠학개론 ( y.ed1 )</span>
-                    </span>
-                </a>
-
                 <section id="share-card" class="overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-soft">
                     <div class="p-7 sm:p-10 text-center sm:text-left">
-                        <div class="mb-7 mx-auto sm:mx-0 grid h-14 w-14 place-items-center rounded-2xl bg-mint text-moss" aria-hidden="true">
-                            <svg viewBox="0 0 24 24" class="h-7 w-7" fill="none" stroke="currentColor" stroke-width="1.7">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M7 3.75h6.2L19 9.55v10.7H7z" />
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M13 3.75v6h6M10 14h6M10 17h6" />
-                            </svg>
-                        </div>
-
                         <p class="text-sm font-semibold tracking-wide text-moss">공유된 파일</p>
-                        <h1 id="share-filename" class="mt-2 break-words text-2xl font-semibold tracking-tight text-ink sm:text-3xl">
-                            파일명 불러오는 중…
-                        </h1>
-                        <p class="mt-3 text-sm leading-6 text-slate-500">
-                            파일을 받으려면 아래 다운로드 버튼을 눌러 주세요.
-                        </p>
-
+                        <h1 id="share-filename" class="mt-2 break-words text-2xl font-semibold tracking-tight text-ink sm:text-3xl">파일명 불러오는 중…</h1>
                         <dl class="mt-7 rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3">
                             <div class="flex items-center justify-between gap-4">
                                 <dt class="shrink-0 text-sm text-slate-500">파일 크기</dt>
                                 <dd id="share-filesize" class="text-right text-sm font-medium text-slate-700">0 MB</dd>
                             </div>
                         </dl>
-
-                        <button id="share-download-btn" type="button" class="primary-button mt-7 w-full">
-                            <svg viewBox="0 0 24 24" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="1.8">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 3.75v11.5m0 0 4.25-4.25M12 15.25l-4.25-4.25M5 16.75v3.5h14v-3.5" />
-                            </svg>
-                            파일 다운로드
-                        </button>
-                    </div>
-                    <div class="border-t border-slate-100 px-7 py-4 text-center text-xs text-slate-400 sm:px-10">
-                        Netlify 호스팅을 사용하였습니다.
+                        <button id="share-download-btn" type="button" class="primary-button mt-7 w-full">파일 다운로드</button>
                     </div>
                 </section>
             </div>
         </main>
     </div>
 
+    <!-- 공지 등록 모달 (관리자용) -->
+    <dialog id="notice-dialog" class="rounded-2xl p-6 shadow-2xl backdrop:bg-slate-900/40 w-full max-w-lg">
+        <form id="notice-form" method="dialog" class="space-y-4">
+            <h2 class="text-xl font-semibold text-ink">공지사항 등록</h2>
+            <div>
+                <label class="block text-sm font-medium text-slate-700 mb-1">제목</label>
+                <input id="notice-title-input" type="text" class="form-input" required>
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-slate-700 mb-1">내용</label>
+                <textarea id="notice-content-input" rows="4" class="form-input" required></textarea>
+            </div>
+            <div class="flex justify-end gap-3 pt-2">
+                <button type="button" onclick="document.getElementById('notice-dialog').close()" class="quiet-button">취소</button>
+                <button type="submit" class="primary-button">등록하기</button>
+            </div>
+        </form>
+    </dialog>
+
     <!-- RENAME MODAL -->
     <dialog id="rename-dialog" class="rounded-2xl p-6 shadow-2xl backdrop:bg-slate-900/40 w-full max-w-md">
-        <form id="rename-form" method="dialog">
-            <h2 class="text-xl font-semibold text-ink mb-2">파일 이름 변경</h2>
-            <p class="text-sm text-slate-500 mb-4">새로운 파일 이름을 입력하세요.</p>
-            <input id="rename-input" type="text" class="form-input mb-6" required>
+        <form id="rename-form" method="dialog" class="space-y-4">
+            <h2 class="text-xl font-semibold text-ink">파일 이름 변경</h2>
+            <input id="rename-input" type="text" class="form-input" required>
             <div class="flex justify-end gap-3">
-                <button type="button" id="rename-cancel" class="quiet-button">취소</button>
+                <button type="button" onclick="document.getElementById('rename-dialog').close()" class="quiet-button">취소</button>
                 <button type="submit" class="primary-button">변경 저장</button>
             </div>
         </form>
     </dialog>
 
-    <!-- APPLICATION LOGIC -->
+    <!-- APPLICATION SCRIPT -->
     <script>
-        const DB_NAME = 'NamuCloudDB_v2';
+        const ADMIN_EMAIL = 'jokee0302@gmail.com';
+        const ADMIN_PW = 'gogyubin1124';
+
+        const DB_NAME = 'CloudServiceDB_v1';
         const DB_VERSION = 1;
         const STORE_NAME = 'file_blobs';
 
@@ -465,9 +578,21 @@
             });
         }
 
-        let currentUser = JSON.parse(localStorage.getItem('namu_user')) || null;
-        let files = JSON.parse(localStorage.getItem('namu_files')) || [];
+        let currentUser = JSON.parse(localStorage.getItem('cloud_user')) || null;
+        let files = JSON.parse(localStorage.getItem('cloud_files')) || [];
+        let notices = JSON.parse(localStorage.getItem('cloud_notices')) || [
+            { id: 'n1', title: '통합 클라우드 서비스 오픈 안내', content: '공지사항, 파일 공유, 동영상 URL 변환, 1:1 고객센터 기능이 모두 통합되었습니다.', date: '2026-10-04', author: '관리자' }
+        ];
+        let chatMessages = JSON.parse(localStorage.getItem('cloud_chats')) || [];
+        let registeredUsers = JSON.parse(localStorage.getItem('cloud_reg_users')) || [
+            { name: '관리자', email: ADMIN_EMAIL, role: 'admin' }
+        ];
+
         let editingFileId = null;
+
+        function isAdmin() {
+            return currentUser && currentUser.email === ADMIN_EMAIL;
+        }
 
         function navigate() {
             const hash = window.location.hash || '#register';
@@ -477,29 +602,347 @@
                 const queryIndex = hash.indexOf('?');
                 let params = new URLSearchParams();
                 if (queryIndex !== -1) {
-                    const queryString = hash.substring(queryIndex + 1);
-                    params = new URLSearchParams(queryString);
+                    params = new URLSearchParams(hash.substring(queryIndex + 1));
                 }
                 showShareView(params);
             } else if (hash === '#login') {
                 document.getElementById('view-login').classList.remove('hidden');
-                document.getElementById('page-title').textContent = 'Namu Cloud — 로그인';
-            } else if (hash === '#dashboard') {
+                document.getElementById('page-title').textContent = 'Cloud Service — 로그인';
+            } else if (hash === '#dashboard' || hash === '#notice' || hash === '#files' || hash === '#video' || hash === '#support' || hash === '#db') {
                 if (!currentUser) {
                     window.location.hash = '#login';
                     return;
                 }
                 document.getElementById('view-dashboard').classList.remove('hidden');
-                document.getElementById('page-title').textContent = 'Namu Cloud — 내 파일 보관함';
+                document.getElementById('page-title').textContent = 'Cloud Service — 통합 서비스';
+                
+                if (isAdmin()) {
+                    document.getElementById('tab-db').classList.remove('hidden');
+                    document.getElementById('tab-db-m').classList.remove('hidden');
+                    document.getElementById('btn-write-notice').classList.remove('hidden');
+                } else {
+                    document.getElementById('tab-db').classList.add('hidden');
+                    document.getElementById('tab-db-m').classList.add('hidden');
+                    document.getElementById('btn-write-notice').classList.add('hidden');
+                }
+
                 renderDashboard();
+                renderNotices();
+                renderSupportChat();
+
+                if (hash === '#files') switchTab('files', false);
+                else if (hash === '#video') switchTab('video', false);
+                else if (hash === '#support') switchTab('support', false);
+                else if (hash === '#db' && isAdmin()) switchTab('db', false);
+                else switchTab('notice', false);
             } else {
                 document.getElementById('view-register').classList.remove('hidden');
-                document.getElementById('page-title').textContent = 'Namu Cloud — 회원가입';
+                document.getElementById('page-title').textContent = 'Cloud Service — 회원가입';
             }
         }
 
         window.addEventListener('hashchange', navigate);
         window.addEventListener('load', navigate);
+
+        function switchTab(tabName, updateHash = true) {
+            ['notice', 'files', 'video', 'support', 'db'].forEach(t => {
+                const content = document.getElementById(`tab-content-${t}`);
+                if (content) content.classList.add('hidden');
+            });
+
+            document.querySelectorAll('.nav-tab').forEach(btn => btn.classList.remove('active'));
+
+            const targetContent = document.getElementById(`tab-content-${tabName}`);
+            if (targetContent) targetContent.classList.remove('hidden');
+
+            document.querySelectorAll(`.nav-tab`).forEach(btn => {
+                if (btn.getAttribute('onclick') && btn.getAttribute('onclick').includes(`'${tabName}'`)) {
+                    btn.classList.add('active');
+                }
+            });
+
+            if (updateHash) {
+                window.location.hash = `#${tabName}`;
+            }
+
+            if (tabName === 'db' && isAdmin()) {
+                loadDatabaseData();
+            }
+        }
+
+        document.getElementById('register-form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const name = document.getElementById('reg-name').value;
+            const email = document.getElementById('reg-email').value;
+            
+            currentUser = { name, email, role: email === ADMIN_EMAIL ? 'admin' : 'user' };
+            localStorage.setItem('cloud_user', JSON.stringify(currentUser));
+
+            if (!registeredUsers.some(u => u.email === email)) {
+                registeredUsers.push(currentUser);
+                localStorage.setItem('cloud_reg_users', JSON.stringify(registeredUsers));
+            }
+            window.location.hash = '#dashboard';
+        });
+
+        document.getElementById('login-form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const email = document.getElementById('login-email').value;
+            const pw = document.getElementById('login-password').value;
+
+            if (email === ADMIN_EMAIL && pw !== ADMIN_PW) {
+                alert('관리자 비밀번호가 일치하지 않습니다.');
+                return;
+            }
+
+            const found = registeredUsers.find(u => u.email === email);
+            currentUser = found || { name: email.split('@')[0], email, role: email === ADMIN_EMAIL ? 'admin' : 'user' };
+            localStorage.setItem('cloud_user', JSON.stringify(currentUser));
+            window.location.hash = '#dashboard';
+        });
+
+        document.getElementById('logout-btn').addEventListener('click', () => {
+            currentUser = null;
+            localStorage.removeItem('cloud_user');
+            window.location.hash = '#login';
+        });
+
+        function renderNotices() {
+            const listEl = document.getElementById('notice-list');
+            listEl.innerHTML = '';
+            if (notices.length === 0) {
+                listEl.innerHTML = '<div class="bg-white p-6 rounded-2xl border border-slate-200 text-center text-slate-400 text-sm">등록된 공지사항이 없습니다.</div>';
+                return;
+            }
+
+            notices.forEach(n => {
+                const card = document.createElement('div');
+                card.className = 'bg-white rounded-2xl border border-slate-200 p-6 shadow-soft space-y-2';
+                card.innerHTML = `
+                    <div class="flex justify-between items-start">
+                        <h2 class="text-lg font-semibold text-ink">${n.title}</h2>
+                        <span class="text-xs text-slate-400">${n.date}</span>
+                    </div>
+                    <p class="text-sm text-slate-600 whitespace-pre-line leading-relaxed">${n.content}</p>
+                    <div class="flex justify-between items-center pt-2 border-t border-slate-100 text-xs text-slate-400">
+                        <span>작성자: ${n.author || '관리자'}</span>
+                        ${isAdmin() ? `<button onclick="deleteNotice('${n.id}')" class="text-rose-600 hover:underline">삭제</button>` : ''}
+                    </div>
+                `;
+                listEl.appendChild(card);
+            });
+        }
+
+        function openNoticeModal() {
+            document.getElementById('notice-dialog').showModal();
+        }
+
+        document.getElementById('notice-form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const title = document.getElementById('notice-title-input').value;
+            const content = document.getElementById('notice-content-input').value;
+
+            const newNotice = {
+                id: 'n_' + Date.now(),
+                title,
+                content,
+                date: new Date().toLocaleDateString('ko-KR'),
+                author: currentUser.name
+            };
+
+            notices.unshift(newNotice);
+            localStorage.setItem('cloud_notices', JSON.stringify(notices));
+            renderNotices();
+            document.getElementById('notice-form').reset();
+            document.getElementById('notice-dialog').close();
+        });
+
+        function deleteNotice(id) {
+            notices = notices.filter(n => n.id !== id);
+            localStorage.setItem('cloud_notices', JSON.stringify(notices));
+            renderNotices();
+        }
+
+        function convertVideoUrl() {
+            const url = document.getElementById('video-url-input').value.trim();
+            const resultArea = document.getElementById('video-result-area');
+            const playerContainer = document.getElementById('video-player-container');
+            const embedInput = document.getElementById('video-embed-code');
+
+            if (!url) {
+                alert('동영상 URL을 입력해주세요.');
+                return;
+            }
+
+            let embedUrl = '';
+            if (url.includes('youtube.com') || url.includes('youtu.be')) {
+                let videoId = '';
+                if (url.includes('youtu.be/')) {
+                    videoId = url.split('youtu.be/')[1].split('?')[0];
+                } else if (url.includes('watch?v=')) {
+                    videoId = url.split('watch?v=')[1].split('&')[0];
+                }
+                if (videoId) {
+                    embedUrl = `https://www.youtube.com/embed/${videoId}`;
+                }
+            }
+
+            if (embedUrl) {
+                resultArea.classList.remove('hidden');
+                playerContainer.innerHTML = `<iframe src="${embedUrl}" class="w-full h-full" frameborder="0" allowfullscreen></iframe>`;
+                embedInput.value = `<iframe width="560" height="315" src="${embedUrl}" frameborder="0" allowfullscreen></iframe>`;
+            } else {
+                resultArea.classList.remove('hidden');
+                playerContainer.innerHTML = `<div class="text-white text-sm p-4 text-center">직접 임베드할 수 없는 링크이거나 지원하지 않는 형식입니다.<br><a href="${url}" target="_blank" class="underline text-[#a6d8c2]">새 창에서 링크 열기</a></div>`;
+                embedInput.value = url;
+            }
+        }
+
+        function copyEmbedCode() {
+            const input = document.getElementById('video-embed-code');
+            input.select();
+            navigator.clipboard.writeText(input.value);
+            alert('임베드 코드가 복사되었습니다!');
+        }
+
+        function renderSupportChat() {
+            const chatBody = document.getElementById('support-chat-body');
+            const userTag = document.getElementById('support-user-tag');
+            userTag.textContent = isAdmin() ? '접속자: 관리자 (답변 가능)' : `접속자: ${currentUser.name}`;
+
+            let html = `
+                <div class="flex items-start gap-3">
+                    <div class="w-8 h-8 rounded-full bg-moss text-white flex items-center justify-center font-bold text-xs shrink-0">상담</div>
+                    <div class="bg-white p-4 rounded-2xl shadow-sm border border-slate-100 max-w-[80%] text-ink leading-relaxed">
+                        안녕하세요! 고객센터입니다. 무엇을 도와드릴까요?
+                    </div>
+                </div>
+            `;
+
+            chatMessages.forEach(m => {
+                const isMe = m.email === currentUser.email;
+                if (isMe) {
+                    html += `
+                        <div class="flex items-start gap-3 justify-end">
+                            <div class="bg-moss text-white p-4 rounded-2xl shadow-sm max-w-[80%] leading-relaxed">
+                                <div class="text-[10px] text-white/70 mb-1">${m.sender}</div>
+                                ${m.text}
+                            </div>
+                        </div>
+                    `;
+                } else {
+                    html += `
+                        <div class="flex items-start gap-3">
+                            <div class="w-8 h-8 rounded-full bg-slate-700 text-white flex items-center justify-center font-bold text-xs shrink-0">${m.sender.charAt(0)}</div>
+                            <div class="bg-white p-4 rounded-2xl shadow-sm border border-slate-100 max-w-[80%] text-ink leading-relaxed">
+                                <div class="text-[10px] text-slate-400 mb-1">${m.sender} (${m.email})</div>
+                                ${m.text}
+                            </div>
+                        </div>
+                    `;
+                }
+            });
+
+            chatBody.innerHTML = html;
+            chatBody.scrollTop = chatBody.scrollHeight;
+        }
+
+        function sendSupportMessage() {
+            const input = document.getElementById('support-input');
+            const text = input.value.trim();
+            if (!text) return;
+
+            const msg = {
+                id: 'msg_' + Date.now(),
+                sender: currentUser.name,
+                email: currentUser.email,
+                text,
+                time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+            };
+
+            chatMessages.push(msg);
+            localStorage.setItem('cloud_chats', JSON.stringify(chatMessages));
+            input.value = '';
+            renderSupportChat();
+
+            if (!isAdmin()) {
+                setTimeout(() => {
+                    const reply = {
+                        id: 'msg_reply_' + Date.now(),
+                        sender: '고객센터 담당자',
+                        email: ADMIN_EMAIL,
+                        text: `[자동접수] ${currentUser.name}님의 문의가 정상적으로 접수되었습니다. 확인 후 답변드리겠습니다!`,
+                        time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+                    };
+                    chatMessages.push(reply);
+                    localStorage.setItem('cloud_chats', JSON.stringify(chatMessages));
+                    renderSupportChat();
+                }, 600);
+            }
+        }
+
+        function loadDatabaseData() {
+            if (!isAdmin()) return;
+
+            const userTable = document.getElementById('db-user-table');
+            document.getElementById('db-user-count').textContent = registeredUsers.length;
+            userTable.innerHTML = '';
+
+            registeredUsers.forEach((u) => {
+                const tr = document.createElement('tr');
+                tr.className = 'hover:bg-slate-50';
+                tr.innerHTML = `
+                    <td class="p-3 font-medium text-ink">${u.name}</td>
+                    <td class="p-3 text-slate-500">${u.email}</td>
+                    <td class="p-3"><span class="px-2 py-1 rounded text-xs font-semibold ${u.email === ADMIN_EMAIL ? 'bg-rose-100 text-rose-700' : 'bg-mint text-moss'}">${u.email === ADMIN_EMAIL ? '관리자' : '일반회원'}</span></td>
+                    <td class="p-3 text-right space-x-2">
+                        <button onclick="editUser('${u.email}')" class="quiet-button">수정</button>
+                        ${u.email !== ADMIN_EMAIL ? `<button onclick="deleteUser('${u.email}')" class="quiet-button text-rose-600 hover:bg-rose-50">삭제</button>` : ''}
+                    </td>
+                `;
+                userTable.appendChild(tr);
+            });
+
+            const fileTable = document.getElementById('db-file-table');
+            fileTable.innerHTML = '';
+            if (files.length === 0) {
+                fileTable.innerHTML = `<tr><td colspan="4" class="p-4 text-center text-slate-400">업로드된 파일이 없습니다.</td></tr>`;
+                return;
+            }
+
+            files.forEach(f => {
+                const tr = document.createElement('tr');
+                tr.className = 'hover:bg-slate-50';
+                tr.innerHTML = `
+                    <td class="p-3 font-medium text-ink">${f.name}</td>
+                    <td class="p-3 text-slate-500">${formatBytes(f.size)}</td>
+                    <td class="p-3 text-slate-500">${f.downloads}회</td>
+                    <td class="p-3 text-right">
+                        <button onclick="deleteFile('${f.id}')" class="quiet-button text-rose-600 hover:bg-rose-50">삭제</button>
+                    </td>
+                `;
+                fileTable.appendChild(tr);
+            });
+        }
+
+        function deleteUser(email) {
+            if (confirm(`정말 ${email} 유저를 삭제하시겠습니까?`)) {
+                registeredUsers = registeredUsers.filter(u => u.email !== email);
+                localStorage.setItem('cloud_reg_users', JSON.stringify(registeredUsers));
+                loadDatabaseData();
+            }
+        }
+
+        function editUser(email) {
+            const u = registeredUsers.find(item => item.email === email);
+            if (!u) return;
+            const newName = prompt('새로운 이름을 입력하세요:', u.name);
+            if (newName) {
+                u.name = newName;
+                localStorage.setItem('cloud_reg_users', JSON.stringify(registeredUsers));
+                loadDatabaseData();
+            }
+        }
 
         function formatBytes(bytes) {
             if (!bytes || bytes === 0) return '0 B';
@@ -513,59 +956,38 @@
             return 'sk_' + Date.now() + '_' + Math.random().toString(36).substr(2, 6);
         }
 
-        document.getElementById('register-form').addEventListener('submit', (e) => {
-            e.preventDefault();
-            const name = document.getElementById('reg-name').value;
-            const email = document.getElementById('reg-email').value;
-            currentUser = { name, email };
-            localStorage.setItem('namu_user', JSON.stringify(currentUser));
-            window.location.hash = '#dashboard';
-        });
-
-        document.getElementById('login-form').addEventListener('submit', (e) => {
-            e.preventDefault();
-            const email = document.getElementById('login-email').value;
-            currentUser = { name: email.split('@')[0], email };
-            localStorage.setItem('namu_user', JSON.stringify(currentUser));
-            window.location.hash = '#dashboard';
-        });
-
-        document.getElementById('logout-btn').addEventListener('click', () => {
-            currentUser = null;
-            localStorage.removeItem('namu_user');
-            window.location.hash = '#login';
-        });
-
         const dropZone = document.getElementById('drop-zone');
         const fileInput = document.getElementById('file-input');
         const statusBox = document.getElementById('upload-status-box');
         const statusText = document.getElementById('upload-status-text');
         const progressBar = document.getElementById('upload-progress-bar');
 
-        document.getElementById('choose-files').addEventListener('click', () => fileInput.click());
+        if (dropZone) {
+            document.getElementById('choose-files').addEventListener('click', () => fileInput.click());
 
-        fileInput.addEventListener('change', (e) => {
-            handleUploadFiles(e.target.files);
-            fileInput.value = '';
-        });
+            fileInput.addEventListener('change', (e) => {
+                handleUploadFiles(e.target.files);
+                fileInput.value = '';
+            });
 
-        dropZone.addEventListener('dragover', (e) => {
-            e.preventDefault();
-            dropZone.classList.add('dragover');
-        });
+            dropZone.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                dropZone.classList.add('dragover');
+            });
 
-        dropZone.addEventListener('dragleave', () => dropZone.classList.remove('dragover'));
+            dropZone.addEventListener('dragleave', () => dropZone.classList.remove('dragover'));
 
-        dropZone.addEventListener('drop', (e) => {
-            e.preventDefault();
-            dropZone.classList.remove('dragover');
-            handleUploadFiles(e.dataTransfer.files);
-        });
+            dropZone.addEventListener('drop', (e) => {
+                e.preventDefault();
+                dropZone.classList.remove('dragover');
+                handleUploadFiles(e.dataTransfer.files);
+            });
+        }
 
         function updateProgress(percent, msg) {
             const p = Math.min(100, Math.max(0, Math.round(percent)));
-            progressBar.style.width = p + '%';
-            statusText.textContent = `저장하는 중 ( 진행상황 : ${p}% ${msg ? '- ' + msg : ''} )`;
+            if (progressBar) progressBar.style.width = p + '%';
+            if (statusText) statusText.textContent = `저장하는 중 ( 진행상황 : ${p}% ${msg ? '- ' + msg : ''} )`;
         }
 
         async function handleUploadFiles(fileList) {
@@ -573,36 +995,30 @@
             if (arr.length === 0) return;
 
             statusBox.classList.remove('hidden');
-            updateProgress(0, '파일 처리 준비 중');
+            updateProgress(0, '파일 준비 중');
 
             for (let i = 0; i < arr.length; i++) {
                 const file = arr[i];
                 const fileId = 'file_' + Date.now() + '_' + Math.random().toString(36).substr(2, 5);
 
                 try {
-                    updateProgress(5, `로컬 저장소 기록 중 (${file.name})`);
+                    updateProgress(20, `로컬 저장소 기록 중`);
                     await saveBlobToIDB(fileId, file);
-                    updateProgress(15, `클라우드 서버 동기화 시작`);
+                    updateProgress(80, `클라우드 동기화`);
 
                     let remoteUrl = await uploadWithXHR('https://tmpfiles.org/api/v1/upload', file, file.name, (p) => {
-                        const mapped = 15 + (p * 0.75);
-                        updateProgress(mapped, `${file.name} 네트워크 전송 중`);
+                        updateProgress(80 + (p * 0.15), '전송 중');
                     });
 
                     if (remoteUrl) {
                         remoteUrl = remoteUrl.replace('tmpfiles.org/', 'tmpfiles.org/dl/');
-                    } else {
-                        updateProgress(80, `보조 클라우드 연결 중`);
-                        remoteUrl = await uploadToLitterbox(file, file.name);
                     }
-
-                    updateProgress(98, `등록 마무리 중`);
 
                     const newFile = {
                         id: fileId,
                         name: file.name,
                         size: file.size,
-                        date: new Date().toLocaleDateString('ko-KR', { year: 'numeric', month: 'long', day: 'numeric' }),
+                        date: new Date().toLocaleDateString('ko-KR'),
                         downloads: 0,
                         shared: true,
                         shareKey: generateKey(),
@@ -611,18 +1027,16 @@
 
                     files.unshift(newFile);
                     saveMetadata();
-                    updateProgress(100, `저장 완료!`);
+                    updateProgress(100, '완료');
                 } catch (err) {
-                    console.error('File Processing Error:', err);
-                    statusText.textContent = `저장 오류: 파일 처리 중 문제가 발생했습니다.`;
+                    console.error('Upload Error:', err);
                 }
             }
 
             renderDashboard();
             setTimeout(() => {
                 statusBox.classList.add('hidden');
-                updateProgress(0, '');
-            }, 2500);
+            }, 2000);
         }
 
         function uploadWithXHR(apiUrl, fileBlob, fileName, onProgress) {
@@ -633,8 +1047,7 @@
 
                 xhr.upload.addEventListener('progress', (e) => {
                     if (e.lengthComputable && onProgress) {
-                        const percent = (e.loaded / e.total) * 100;
-                        onProgress(percent);
+                        onProgress((e.loaded / e.total) * 100);
                     }
                 });
 
@@ -650,40 +1063,18 @@
                     }
                     resolve(null);
                 };
-
                 xhr.onerror = () => resolve(null);
                 xhr.open('POST', apiUrl, true);
                 xhr.send(formData);
             });
         }
 
-        async function uploadToLitterbox(fileBlob, fileName) {
-            try {
-                const formData = new FormData();
-                formData.append('reqtype', 'fileupload');
-                formData.append('time', '72h');
-                formData.append('fileToUpload', fileBlob, fileName);
-
-                const res = await fetch('https://litterbox.catbox.moe/resources/internals/api.php', {
-                    method: 'POST',
-                    body: formData
-                });
-
-                if (res.ok) {
-                    const url = await res.text();
-                    if (url && url.startsWith('http')) {
-                        return url.trim();
-                    }
-                }
-            } catch (e) {}
-            return null;
-        }
-
         function saveMetadata() {
-            localStorage.setItem('namu_files', JSON.stringify(files));
+            localStorage.setItem('cloud_files', JSON.stringify(files));
         }
 
         function renderDashboard() {
+            if (!currentUser) return;
             document.getElementById('dash-user-name').textContent = currentUser.name;
             document.getElementById('dash-welcome-name').textContent = currentUser.name;
             document.getElementById('dash-user-email').textContent = currentUser.email;
@@ -693,22 +1084,16 @@
             const totalBytes = files.reduce((acc, f) => acc + f.size, 0);
             document.getElementById('dash-storage-used').textContent = formatBytes(totalBytes);
 
-            const searchKey = document.getElementById('file-search').value.toLowerCase();
             const fileListEl = document.getElementById('file-list');
+            if (!fileListEl) return;
             fileListEl.innerHTML = '';
 
-            const filtered = files.filter(f => f.name.toLowerCase().includes(searchKey));
-
-            if (filtered.length === 0) {
-                fileListEl.innerHTML = `
-                    <div class="p-10 text-center text-sm text-slate-400">
-                        업로드된 파일이 없습니다.
-                    </div>
-                `;
+            if (files.length === 0) {
+                fileListEl.innerHTML = `<div class="p-10 text-center text-sm text-slate-400">업로드된 파일이 없습니다.</div>`;
                 return;
             }
 
-            filtered.forEach(file => {
+            files.forEach(file => {
                 const row = document.createElement('div');
                 row.className = 'grid grid-cols-1 sm:grid-cols-12 items-center gap-3 px-6 py-4 hover:bg-slate-50 transition-colors';
                 row.innerHTML = `
@@ -727,17 +1112,14 @@
                     <div class="sm:col-span-2 text-xs text-slate-500">${file.date}</div>
                     <div class="sm:col-span-3 flex items-center justify-end gap-1.5 flex-wrap">
                         <button onclick="downloadLocalFile('${file.id}')" class="quiet-button">다운로드</button>
-                        <button onclick="copyShareLink('${file.id}')" class="quiet-button">링크 복사</button>
-                        <button onclick="toggleShare('${file.id}')" class="quiet-button ${file.shared ? '' : 'text-rose-600 bg-rose-50 border-rose-200'}">${file.shared ? '공유 중지' : '공유 시작'}</button>
-                        <button onclick="openRenameModal('${file.id}')" class="quiet-button">이름 변경</button>
+                        <button onclick="copyShareLink('${file.id}')" class="quiet-button">링크</button>
+                        <button onclick="openRenameModal('${file.id}')" class="quiet-button">이름</button>
                         <button onclick="deleteFile('${file.id}')" class="quiet-button text-rose-600 hover:bg-rose-50">삭제</button>
                     </div>
                 `;
                 fileListEl.appendChild(row);
             });
         }
-
-        document.getElementById('file-search').addEventListener('input', renderDashboard);
 
         async function downloadLocalFile(id) {
             const file = files.find(f => f.id === id);
@@ -757,72 +1139,31 @@
                     a.click();
                     URL.revokeObjectURL(url);
                 } else if (file.remoteUrl) {
-                    downloadFileByFetch(file.remoteUrl, file.name);
+                    window.open(file.remoteUrl, '_blank');
                 } else {
-                    alert('파일 원본을 찾을 수 없습니다.');
+                    alert('파일을 찾을 수 없습니다.');
                 }
             } catch (err) {
                 console.error('Download error:', err);
             }
         }
 
-        async function downloadFileByFetch(url, filename) {
-            try {
-                const response = await fetch(url);
-                const blob = await response.blob();
-                const blobUrl = URL.createObjectURL(blob);
-                const a = document.createElement('a');
-                a.href = blobUrl;
-                a.download = filename;
-                document.body.appendChild(a);
-                a.click();
-                document.body.removeChild(a);
-                URL.revokeObjectURL(blobUrl);
-            } catch (e) {
-                window.open(url, '_blank');
-            }
-        }
-
-        function toggleShare(id) {
-            const file = files.find(f => f.id === id);
-            if (!file) return;
-
-            if (file.shared) {
-                file.shared = false;
-                file.shareKey = null;
-            } else {
-                file.shared = true;
-                file.shareKey = generateKey();
-            }
-
-            saveMetadata();
-            renderDashboard();
-        }
-
         async function copyShareLink(id) {
             const file = files.find(f => f.id === id);
             if (!file) return;
-
-            if (!file.shared || !file.shareKey) {
-                alert("현재 공유가 중지된 파일입니다.\n'공유 시작' 버튼을 누르면 새로운 고유 링크가 발급됩니다.");
-                return;
-            }
 
             const params = new URLSearchParams();
             params.set('k', file.shareKey);
             params.set('n', file.name);
             params.set('s', file.size.toString());
-            if (file.remoteUrl) {
-                params.set('u', file.remoteUrl);
-            }
+            if (file.remoteUrl) params.set('u', file.remoteUrl);
 
             const shareUrl = `${window.location.origin}${window.location.pathname}#share?${params.toString()}`;
-
             try {
                 await navigator.clipboard.writeText(shareUrl);
-                alert('공유 링크가 클립보드에 복사되었습니다!\n\n' + shareUrl);
+                alert('공유 링크가 복사되었습니다!');
             } catch (e) {
-                prompt('아래 공유 링크를 복사해 전달하세요:', shareUrl);
+                prompt('공유 링크:', shareUrl);
             }
         }
 
@@ -831,6 +1172,7 @@
             await deleteBlobFromIDB(id);
             saveMetadata();
             renderDashboard();
+            if (isAdmin()) loadDatabaseData();
         }
 
         const renameDialog = document.getElementById('rename-dialog');
@@ -843,8 +1185,6 @@
             }
         }
 
-        document.getElementById('rename-cancel').addEventListener('click', () => renameDialog.close());
-
         document.getElementById('rename-form').addEventListener('submit', (e) => {
             e.preventDefault();
             const file = files.find(f => f.id === editingFileId);
@@ -856,67 +1196,43 @@
             renameDialog.close();
         });
 
-        // Share Download View
         function showShareView(params) {
             document.getElementById('view-share').classList.remove('hidden');
-
             const nameEl = document.getElementById('share-filename');
             const sizeEl = document.getElementById('share-filesize');
             const downloadBtn = document.getElementById('share-download-btn');
 
             const shareKey = params.get('k');
-            const paramName = params.get('n') || params.get('name');
-            const paramSize = params.get('s') || params.get('size');
-            const downloadUrl = params.get('u') || params.get('url');
+            const paramName = params.get('n');
+            const paramSize = params.get('s');
+            const downloadUrl = params.get('u');
 
-            const localFile = files.find(f => f.shareKey === shareKey || (shareKey && f.id === shareKey));
-
-            if (localFile && !localFile.shared) {
-                renderShareError();
-                return;
-            }
-
-            const fileName = paramName || (localFile ? localFile.name : null);
+            const localFile = files.find(f => f.shareKey === shareKey || f.id === shareKey);
+            const fileName = paramName || (localFile ? localFile.name : '공유 파일');
             const fileSize = paramSize ? parseInt(paramSize) : (localFile ? localFile.size : 0);
 
-            if (fileName && (downloadUrl || localFile)) {
-                nameEl.textContent = fileName;
-                sizeEl.textContent = formatBytes(fileSize);
+            nameEl.textContent = fileName;
+            sizeEl.textContent = formatBytes(fileSize);
 
-                document.getElementById('page-title').textContent = fileName + ' — Namu Cloud';
-                const ogTitle = document.getElementById('og-title-tag');
-                if (ogTitle) ogTitle.setAttribute('content', fileName);
-
-                downloadBtn.classList.remove('pointer-events-none', 'opacity-50');
-                downloadBtn.onclick = async () => {
-                    if (localFile) {
-                        localFile.downloads++;
-                        saveMetadata();
-                        const blob = await getBlobFromIDB(localFile.id);
-                        if (blob) {
-                            const url = URL.createObjectURL(blob);
-                            const a = document.createElement('a');
-                            a.href = url;
-                            a.download = fileName;
-                            a.click();
-                            URL.revokeObjectURL(url);
-                            return;
-                        }
+            downloadBtn.onclick = async () => {
+                if (localFile) {
+                    localFile.downloads++;
+                    saveMetadata();
+                    const blob = await getBlobFromIDB(localFile.id);
+                    if (blob) {
+                        const url = URL.createObjectURL(blob);
+                        const a = document.createElement('a');
+                        a.href = url;
+                        a.download = fileName;
+                        a.click();
+                        URL.revokeObjectURL(url);
+                        return;
                     }
-                    if (downloadUrl) {
-                        downloadFileByFetch(downloadUrl, fileName);
-                    }
-                };
-            } else {
-                renderShareError();
-            }
-
-            function renderShareError() {
-                nameEl.textContent = '파일을 찾을 수 없거나 공유가 중지되었습니다.';
-                sizeEl.textContent = '0 B';
-                document.getElementById('page-title').textContent = '파일을 찾을 수 없음 — Namu Cloud';
-                downloadBtn.classList.add('pointer-events-none', 'opacity-50');
-            }
+                }
+                if (downloadUrl) {
+                    window.open(downloadUrl, '_blank');
+                }
+            };
         }
     </script>
 </body>
